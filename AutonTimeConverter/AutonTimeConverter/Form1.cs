@@ -16,5 +16,22 @@ namespace AutonTimeConverter
         {
             InitializeComponent();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+			UInt32 time = 0;
+			try
+			{
+				time = Convert.ToUInt32(textBox1.Text);
+			}
+			catch (System.Exception ex)
+			{
+
+			}
+
+			DateTime dateTime = new DateTime(1980, 1, 1);
+			dateTime = dateTime.AddSeconds(time);
+			textBox2.Text = dateTime.ToString();
+		}
     }
 }
