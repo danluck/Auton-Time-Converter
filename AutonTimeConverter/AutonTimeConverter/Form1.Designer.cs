@@ -74,9 +74,9 @@
 			this.label3.AutoSize = true;
 			this.label3.Location = new System.Drawing.Point(209, 12);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(237, 13);
+			this.label3.Size = new System.Drawing.Size(186, 13);
 			this.label3.TabIndex = 10;
-			this.label3.Text = "[HEX Little Endian (DCBA)] Seconds since 1980:";
+			this.label3.Text = "[HEX Little Endian (DCBA)] 8 symbols:";
 			// 
 			// textBoxHex
 			// 
@@ -84,6 +84,7 @@
 			this.textBoxHex.Name = "textBoxHex";
 			this.textBoxHex.Size = new System.Drawing.Size(233, 20);
 			this.textBoxHex.TabIndex = 9;
+			this.textBoxHex.TextChanged += new System.EventHandler(this.textBoxHex_TextChanged);
 			// 
 			// Form1
 			// 
