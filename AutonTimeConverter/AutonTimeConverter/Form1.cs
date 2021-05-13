@@ -32,7 +32,7 @@ namespace AutonTimeConverter
 			UInt32 time = 0;
 			try
 			{
-				time = Convert.ToUInt32(textBox1.Text);
+				time = Convert.ToUInt32(textBoxDecimal.Text);
 			}
 			catch (System.Exception ex)
 			{
