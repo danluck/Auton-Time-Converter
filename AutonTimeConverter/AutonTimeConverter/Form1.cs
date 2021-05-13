@@ -17,17 +17,12 @@ namespace AutonTimeConverter
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-			DoConvertion();
-		}
-
 		private void textBox1_TextChanged(object sender, EventArgs e)
 		{
-			DoConvertion();
+			DoDecimalConvertion();
 		}
 
-		private void DoConvertion()
+		private void DoDecimalConvertion()
 		{
 			UInt32 time = 0;
 			try
