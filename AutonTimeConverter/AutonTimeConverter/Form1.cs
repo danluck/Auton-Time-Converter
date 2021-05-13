@@ -19,6 +19,16 @@ namespace AutonTimeConverter
 
         private void button1_Click(object sender, EventArgs e)
         {
+			DoConvertion();
+		}
+
+		private void textBox1_TextChanged(object sender, EventArgs e)
+		{
+			DoConvertion();
+		}
+
+		private void DoConvertion()
+		{
 			UInt32 time = 0;
 			try
 			{
@@ -33,5 +43,5 @@ namespace AutonTimeConverter
 			dateTime = dateTime.AddSeconds(time);
 			textBox2.Text = dateTime.ToString();
 		}
-    }
+	}
 }
