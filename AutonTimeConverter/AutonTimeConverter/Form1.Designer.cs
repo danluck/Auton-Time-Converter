@@ -39,7 +39,9 @@
 			this.label4 = new System.Windows.Forms.Label();
 			this.richTextBoxEventDataHex = new System.Windows.Forms.RichTextBox();
 			this.label5 = new System.Windows.Forms.Label();
-			this.textBox1 = new System.Windows.Forms.TextBox();
+			this.textBoxClassId = new System.Windows.Forms.TextBox();
+			this.label6 = new System.Windows.Forms.Label();
+			this.labelStatus = new System.Windows.Forms.Label();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.SuspendLayout();
@@ -111,7 +113,9 @@
 			// 
 			// groupBox2
 			// 
-			this.groupBox2.Controls.Add(this.textBox1);
+			this.groupBox2.Controls.Add(this.labelStatus);
+			this.groupBox2.Controls.Add(this.label6);
+			this.groupBox2.Controls.Add(this.textBoxClassId);
 			this.groupBox2.Controls.Add(this.label5);
 			this.groupBox2.Controls.Add(this.richTextBoxEventDataHex);
 			this.groupBox2.Controls.Add(this.label4);
@@ -143,18 +147,36 @@
 			// label5
 			// 
 			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(6, 118);
+			this.label5.Location = new System.Drawing.Point(6, 134);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(138, 13);
 			this.label5.TabIndex = 9;
 			this.label5.Text = "Output -> ClassId (Decimal):";
 			// 
-			// textBox1
+			// textBoxClassId
 			// 
-			this.textBox1.Location = new System.Drawing.Point(150, 115);
-			this.textBox1.Name = "textBox1";
-			this.textBox1.Size = new System.Drawing.Size(98, 20);
-			this.textBox1.TabIndex = 10;
+			this.textBoxClassId.Location = new System.Drawing.Point(150, 131);
+			this.textBoxClassId.Name = "textBoxClassId";
+			this.textBoxClassId.Size = new System.Drawing.Size(98, 20);
+			this.textBoxClassId.TabIndex = 10;
+			// 
+			// label6
+			// 
+			this.label6.AutoSize = true;
+			this.label6.Location = new System.Drawing.Point(6, 114);
+			this.label6.Name = "label6";
+			this.label6.Size = new System.Drawing.Size(40, 13);
+			this.label6.TabIndex = 11;
+			this.label6.Text = "Status:";
+			// 
+			// labelStatus
+			// 
+			this.labelStatus.AutoSize = true;
+			this.labelStatus.Location = new System.Drawing.Point(52, 114);
+			this.labelStatus.Name = "labelStatus";
+			this.labelStatus.Size = new System.Drawing.Size(10, 13);
+			this.labelStatus.TabIndex = 12;
+			this.labelStatus.Text = "-";
 			// 
 			// Form1
 			// 
@@ -183,10 +205,12 @@
 		private System.Windows.Forms.TextBox textBoxHex;
 		private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.GroupBox groupBox2;
-		private System.Windows.Forms.TextBox textBox1;
+		private System.Windows.Forms.TextBox textBoxClassId;
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.RichTextBox richTextBoxEventDataHex;
 		private System.Windows.Forms.Label label4;
+		private System.Windows.Forms.Label labelStatus;
+		private System.Windows.Forms.Label label6;
 	}
 }
 
