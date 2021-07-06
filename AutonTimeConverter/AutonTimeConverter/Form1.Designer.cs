@@ -37,7 +37,7 @@
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.label4 = new System.Windows.Forms.Label();
-			this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+			this.richTextBoxEventDataHex = new System.Windows.Forms.RichTextBox();
 			this.label5 = new System.Windows.Forms.Label();
 			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.groupBox1.SuspendLayout();
@@ -113,7 +113,7 @@
 			// 
 			this.groupBox2.Controls.Add(this.textBox1);
 			this.groupBox2.Controls.Add(this.label5);
-			this.groupBox2.Controls.Add(this.richTextBox1);
+			this.groupBox2.Controls.Add(this.richTextBoxEventDataHex);
 			this.groupBox2.Controls.Add(this.label4);
 			this.groupBox2.Location = new System.Drawing.Point(12, 126);
 			this.groupBox2.Name = "groupBox2";
@@ -131,13 +131,14 @@
 			this.label4.TabIndex = 7;
 			this.label4.Text = "Input -> Hex data:";
 			// 
-			// richTextBox1
+			// richTextBoxEventDataHex
 			// 
-			this.richTextBox1.Location = new System.Drawing.Point(6, 45);
-			this.richTextBox1.Name = "richTextBox1";
-			this.richTextBox1.Size = new System.Drawing.Size(539, 61);
-			this.richTextBox1.TabIndex = 8;
-			this.richTextBox1.Text = "";
+			this.richTextBoxEventDataHex.Location = new System.Drawing.Point(6, 45);
+			this.richTextBoxEventDataHex.Name = "richTextBoxEventDataHex";
+			this.richTextBoxEventDataHex.Size = new System.Drawing.Size(539, 61);
+			this.richTextBoxEventDataHex.TabIndex = 8;
+			this.richTextBoxEventDataHex.Text = "";
+			this.richTextBoxEventDataHex.TextChanged += new System.EventHandler(this.richTextBoxEventDataHex_TextChanged);
 			// 
 			// label5
 			// 
@@ -184,7 +185,7 @@
 		private System.Windows.Forms.GroupBox groupBox2;
 		private System.Windows.Forms.TextBox textBox1;
 		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.RichTextBox richTextBox1;
+		private System.Windows.Forms.RichTextBox richTextBoxEventDataHex;
 		private System.Windows.Forms.Label label4;
 	}
 }

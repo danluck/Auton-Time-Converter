@@ -88,5 +88,10 @@ namespace AutonTimeConverter
 			dateTime = dateTime.AddSeconds(seconds);
 			textBox2.Text = dateTime.ToString();
 		}
+
+		private void richTextBoxEventDataHex_TextChanged(object sender, EventArgs e)
+		{
+			Console.WriteLine("richTextBoxEventDataHex.Text.Length={0}", richTextBoxEventDataHex.Text.Length);
+		}
 	}
 }
