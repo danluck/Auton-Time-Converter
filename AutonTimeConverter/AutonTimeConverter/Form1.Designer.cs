@@ -34,20 +34,28 @@
 			this.textBoxDecimal = new System.Windows.Forms.TextBox();
 			this.label3 = new System.Windows.Forms.Label();
 			this.textBoxHex = new System.Windows.Forms.TextBox();
+			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.label4 = new System.Windows.Forms.Label();
+			this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+			this.label5 = new System.Windows.Forms.Label();
+			this.textBox1 = new System.Windows.Forms.TextBox();
+			this.groupBox1.SuspendLayout();
+			this.groupBox2.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(15, 58);
+			this.label2.Location = new System.Drawing.Point(17, 59);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(53, 13);
+			this.label2.Size = new System.Drawing.Size(139, 13);
 			this.label2.TabIndex = 8;
-			this.label2.Text = "DateTime";
+			this.label2.Text = "Output -> DateTime (String):";
 			// 
 			// textBox2
 			// 
-			this.textBox2.Location = new System.Drawing.Point(15, 77);
+			this.textBox2.Location = new System.Drawing.Point(17, 78);
 			this.textBox2.Name = "textBox2";
 			this.textBox2.Size = new System.Drawing.Size(191, 20);
 			this.textBox2.TabIndex = 7;
@@ -55,15 +63,15 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(12, 12);
+			this.label1.Location = new System.Drawing.Point(15, 17);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(154, 13);
+			this.label1.Size = new System.Drawing.Size(193, 13);
 			this.label1.TabIndex = 6;
-			this.label1.Text = "[Decimal] Seconds since 1980:";
+			this.label1.Text = "Input -> [Decimal] Seconds since 1980:";
 			// 
 			// textBoxDecimal
 			// 
-			this.textBoxDecimal.Location = new System.Drawing.Point(12, 31);
+			this.textBoxDecimal.Location = new System.Drawing.Point(15, 36);
 			this.textBoxDecimal.Name = "textBoxDecimal";
 			this.textBoxDecimal.Size = new System.Drawing.Size(191, 20);
 			this.textBoxDecimal.TabIndex = 5;
@@ -72,36 +80,96 @@
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(209, 12);
+			this.label3.Location = new System.Drawing.Point(212, 17);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(186, 13);
+			this.label3.Size = new System.Drawing.Size(222, 13);
 			this.label3.TabIndex = 10;
-			this.label3.Text = "[HEX Little Endian (DCBA)] 8 symbols:";
+			this.label3.Text = "Input ->[HEX Little Endian (DCBA)] 8 symbols:";
 			// 
 			// textBoxHex
 			// 
-			this.textBoxHex.Location = new System.Drawing.Point(209, 31);
+			this.textBoxHex.Location = new System.Drawing.Point(212, 36);
 			this.textBoxHex.Name = "textBoxHex";
 			this.textBoxHex.Size = new System.Drawing.Size(233, 20);
 			this.textBoxHex.TabIndex = 9;
 			this.textBoxHex.TextChanged += new System.EventHandler(this.textBoxHex_TextChanged);
 			// 
+			// groupBox1
+			// 
+			this.groupBox1.Controls.Add(this.textBoxHex);
+			this.groupBox1.Controls.Add(this.label3);
+			this.groupBox1.Controls.Add(this.textBoxDecimal);
+			this.groupBox1.Controls.Add(this.label1);
+			this.groupBox1.Controls.Add(this.label2);
+			this.groupBox1.Controls.Add(this.textBox2);
+			this.groupBox1.Location = new System.Drawing.Point(12, 12);
+			this.groupBox1.Name = "groupBox1";
+			this.groupBox1.Size = new System.Drawing.Size(561, 108);
+			this.groupBox1.TabIndex = 11;
+			this.groupBox1.TabStop = false;
+			this.groupBox1.Text = "DateTime Converter";
+			// 
+			// groupBox2
+			// 
+			this.groupBox2.Controls.Add(this.textBox1);
+			this.groupBox2.Controls.Add(this.label5);
+			this.groupBox2.Controls.Add(this.richTextBox1);
+			this.groupBox2.Controls.Add(this.label4);
+			this.groupBox2.Location = new System.Drawing.Point(12, 126);
+			this.groupBox2.Name = "groupBox2";
+			this.groupBox2.Size = new System.Drawing.Size(561, 230);
+			this.groupBox2.TabIndex = 12;
+			this.groupBox2.TabStop = false;
+			this.groupBox2.Text = "Event Converter";
+			// 
+			// label4
+			// 
+			this.label4.AutoSize = true;
+			this.label4.Location = new System.Drawing.Point(12, 29);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(92, 13);
+			this.label4.TabIndex = 7;
+			this.label4.Text = "Input -> Hex data:";
+			// 
+			// richTextBox1
+			// 
+			this.richTextBox1.Location = new System.Drawing.Point(6, 45);
+			this.richTextBox1.Name = "richTextBox1";
+			this.richTextBox1.Size = new System.Drawing.Size(539, 61);
+			this.richTextBox1.TabIndex = 8;
+			this.richTextBox1.Text = "";
+			// 
+			// label5
+			// 
+			this.label5.AutoSize = true;
+			this.label5.Location = new System.Drawing.Point(6, 118);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(138, 13);
+			this.label5.TabIndex = 9;
+			this.label5.Text = "Output -> ClassId (Decimal):";
+			// 
+			// textBox1
+			// 
+			this.textBox1.Location = new System.Drawing.Point(150, 115);
+			this.textBox1.Name = "textBox1";
+			this.textBox1.Size = new System.Drawing.Size(98, 20);
+			this.textBox1.TabIndex = 10;
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(463, 126);
-			this.Controls.Add(this.label3);
-			this.Controls.Add(this.textBoxHex);
-			this.Controls.Add(this.label2);
-			this.Controls.Add(this.textBox2);
-			this.Controls.Add(this.label1);
-			this.Controls.Add(this.textBoxDecimal);
-			this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.ClientSize = new System.Drawing.Size(594, 401);
+			this.Controls.Add(this.groupBox2);
+			this.Controls.Add(this.groupBox1);
+			this.Margin = new System.Windows.Forms.Padding(2);
 			this.Name = "Form1";
-			this.Text = "AutonTimeConverter";
+			this.Text = "AutonDataConverter";
+			this.groupBox1.ResumeLayout(false);
+			this.groupBox1.PerformLayout();
+			this.groupBox2.ResumeLayout(false);
+			this.groupBox2.PerformLayout();
 			this.ResumeLayout(false);
-			this.PerformLayout();
 
         }
 
@@ -112,6 +180,12 @@
         private System.Windows.Forms.TextBox textBoxDecimal;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.TextBox textBoxHex;
+		private System.Windows.Forms.GroupBox groupBox1;
+		private System.Windows.Forms.GroupBox groupBox2;
+		private System.Windows.Forms.TextBox textBox1;
+		private System.Windows.Forms.Label label5;
+		private System.Windows.Forms.RichTextBox richTextBox1;
+		private System.Windows.Forms.Label label4;
 	}
 }
 
