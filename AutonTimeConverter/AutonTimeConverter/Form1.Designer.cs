@@ -42,6 +42,8 @@
 			this.textBoxClassId = new System.Windows.Forms.TextBox();
 			this.label6 = new System.Windows.Forms.Label();
 			this.labelStatus = new System.Windows.Forms.Label();
+			this.textBoxDateTimeString = new System.Windows.Forms.TextBox();
+			this.label7 = new System.Windows.Forms.Label();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.SuspendLayout();
@@ -113,6 +115,8 @@
 			// 
 			// groupBox2
 			// 
+			this.groupBox2.Controls.Add(this.textBoxDateTimeString);
+			this.groupBox2.Controls.Add(this.label7);
 			this.groupBox2.Controls.Add(this.labelStatus);
 			this.groupBox2.Controls.Add(this.label6);
 			this.groupBox2.Controls.Add(this.textBoxClassId);
@@ -121,7 +125,7 @@
 			this.groupBox2.Controls.Add(this.label4);
 			this.groupBox2.Location = new System.Drawing.Point(12, 126);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(561, 230);
+			this.groupBox2.Size = new System.Drawing.Size(561, 197);
 			this.groupBox2.TabIndex = 12;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Event Converter";
@@ -178,6 +182,22 @@
 			this.labelStatus.TabIndex = 12;
 			this.labelStatus.Text = "-";
 			// 
+			// textBoxDateTimeString
+			// 
+			this.textBoxDateTimeString.Location = new System.Drawing.Point(150, 157);
+			this.textBoxDateTimeString.Name = "textBoxDateTimeString";
+			this.textBoxDateTimeString.Size = new System.Drawing.Size(158, 20);
+			this.textBoxDateTimeString.TabIndex = 14;
+			// 
+			// label7
+			// 
+			this.label7.AutoSize = true;
+			this.label7.Location = new System.Drawing.Point(6, 160);
+			this.label7.Name = "label7";
+			this.label7.Size = new System.Drawing.Size(139, 13);
+			this.label7.TabIndex = 13;
+			this.label7.Text = "Output -> DateTime (String):";
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -211,6 +231,8 @@
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.Label labelStatus;
 		private System.Windows.Forms.Label label6;
+		private System.Windows.Forms.TextBox textBoxDateTimeString;
+		private System.Windows.Forms.Label label7;
 	}
 }
 
