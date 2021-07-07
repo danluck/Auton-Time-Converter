@@ -18,7 +18,7 @@ namespace AutonTimeConverter
 		// DateTime
 		const UInt32 EXPECTED_DATE_TIME_BYTE_LENGTH = 4;
 		const UInt32 EXPECTED_DATE_TIME_LENGTH =
-			BYTE_SYMBOLS_COUNT * EXPECTED_DATE_TIME_BYTE_LENGTH;
+			EXPECTED_DATE_TIME_BYTE_LENGTH * BYTE_SYMBOLS_COUNT;
 
 		// ClassId
 		const UInt32 EXPECTED_CLASS_ID_BYTE_LENGTH = 2;
@@ -89,11 +89,10 @@ namespace AutonTimeConverter
 		private void DoHexConvertion()
 		{
 			Console.WriteLine("textBoxHex.Text.Length={0}", textBoxHex.Text.Length);
-			if (textBoxHex.Text.Length == (EXPECTED_DATE_TIME_BYTE_LENGTH * BYTE_SYMBOLS_COUNT))
+			int expectedLength = (int)(EXPECTED_DATE_TIME_BYTE_LENGTH * BYTE_SYMBOLS_COUNT);
+			if (textBoxHex.Text.Length == expectedLength)
 			{
-				int stringLength = (int)(EXPECTED_DATE_TIME_BYTE_LENGTH * BYTE_SYMBOLS_COUNT);
-				string text = textBoxHex.Text.Substring(0, stringLength);
-
+				string text = textBoxHex.Text.Substring(0, expectedLength);
 				ShowSecons(GetUint32FromString(text));
 			}
 		}
@@ -116,6 +115,8 @@ namespace AutonTimeConverter
 
 		private void richTextBoxEventDataHex_TextChanged(object sender, EventArgs e)
 		{
+			ClearEventOutput();
+
 			var length = richTextBoxEventDataHex.Text.Length;
 			Console.WriteLine("richTextBoxEventDataHex.Text.Length={0}", length);
 
@@ -149,22 +150,24 @@ namespace AutonTimeConverter
 					Console.WriteLine("result={0}", result);
 					textBoxClassId.Text = result.ToString();
 
+					if (length >= (EXPECTED_CLASS_ID_LENGTH + EXPECTED_DATE_TIME_LENGTH))
+					{
+						int startIndexPosition = (int)EXPECTED_CLASS_ID_LENGTH;
+						Console.WriteLine("startIndexPosition={0}", startIndexPosition);
+						string dateTimeString =
+							richTextBoxEventDataHex.Text.Substring(
+								startIndexPosition, (int)EXPECTED_DATE_TIME_LENGTH);
+						Console.WriteLine("dateTimeString={0}", dateTimeString);
+
+						UInt32 time = GetUint32FromString(dateTimeString);
+						DateTime dateTime = GetActualDateTime(time);
+						textBoxDateTimeString.Text = dateTime.ToString();
+					}
+
 					const UInt16 PressureTemperatureEventId = 22822;
 					if (result == PressureTemperatureEventId)
 					{
-						if (length >= (EXPECTED_CLASS_ID_LENGTH + EXPECTED_DATE_TIME_LENGTH))
-						{
-							int startIndexPosition = (int)EXPECTED_CLASS_ID_LENGTH;
-							Console.WriteLine("startIndexPosition={0}", startIndexPosition);
-							string dateTimeString = 
-								richTextBoxEventDataHex.Text.Substring(
-									startIndexPosition, (int)EXPECTED_DATE_TIME_LENGTH);
-							Console.WriteLine("dateTimeString={0}", dateTimeString);
-
-							UInt32 time = GetUint32FromString(dateTimeString);
-							DateTime dateTime = GetActualDateTime(time);
-							textBoxDateTimeString.Text = dateTime.ToString();
-						}
+						textBoxEventName.Text = "PressureTemperature";
 					}
 				}
 			}
@@ -172,6 +175,14 @@ namespace AutonTimeConverter
 			{
 				labelStatus.Text = "Incorrect length";
 			}
+		}
+
+		private void ClearEventOutput()
+		{
+			textBoxClassId.Text = "";
+			textBoxDateTimeString.Text = "";
+			labelStatus.Text = "";
+			textBoxEventName.Text = "";
 		}
 	}
 }
