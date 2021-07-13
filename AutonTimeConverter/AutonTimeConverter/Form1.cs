@@ -28,6 +28,7 @@ namespace AutonTimeConverter
 		public Form1()
 		{
 			InitializeComponent();
+			ClearEventOutput();
 		}
 
 		private void textBox1_TextChanged(object sender, EventArgs e)
@@ -146,9 +147,9 @@ namespace AutonTimeConverter
 					resultBytes[0] = sourceBytes[1];
 					resultBytes[1] = sourceBytes[0];
 
-					UInt16 result = BitConverter.ToUInt16(resultBytes, 0);
-					Console.WriteLine("result={0}", result);
-					textBoxClassId.Text = result.ToString();
+					UInt16 eventId = BitConverter.ToUInt16(resultBytes, 0);
+					Console.WriteLine("result={0}", eventId);
+					textBoxClassId.Text = eventId.ToString();
 
 					if (length >= (EXPECTED_CLASS_ID_LENGTH + EXPECTED_DATE_TIME_LENGTH))
 					{
@@ -165,9 +166,25 @@ namespace AutonTimeConverter
 					}
 
 					const UInt16 PressureTemperatureEventId = 22822;
-					if (result == PressureTemperatureEventId)
+					const UInt16 WasChangedEventId = 19008;
+					if (eventId == PressureTemperatureEventId)
 					{
 						textBoxEventName.Text = "PressureTemperature";
+					}
+					else if (eventId == WasChangedEventId)
+					{
+						textBoxEventName.Text = "WasChangedEvent";
+
+						// It's event-container
+						groupBoxWasChangedEvent.Enabled = true;
+
+						int startIndexPosition = (int)
+							(EXPECTED_CLASS_ID_LENGTH + EXPECTED_DATE_TIME_LENGTH);
+						string classIdString =
+						richTextBoxEventDataHex.Text.Substring(
+							startIndexPosition, (int)EXPECTED_CLASS_ID_LENGTH);
+						classId = Convert.ToUInt16(classIdString, 16);
+						Console.WriteLine("classIdString={0}", classIdString);
 					}
 				}
 			}
@@ -183,6 +200,8 @@ namespace AutonTimeConverter
 			textBoxDateTimeString.Text = "";
 			labelStatus.Text = "";
 			textBoxEventName.Text = "";
+
+			groupBoxWasChangedEvent.Enabled = false;
 		}
 	}
 }

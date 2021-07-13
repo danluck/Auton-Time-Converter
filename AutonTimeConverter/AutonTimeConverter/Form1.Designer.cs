@@ -36,18 +36,22 @@
 			this.textBoxHex = new System.Windows.Forms.TextBox();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
-			this.label4 = new System.Windows.Forms.Label();
-			this.richTextBoxEventDataHex = new System.Windows.Forms.RichTextBox();
-			this.label5 = new System.Windows.Forms.Label();
-			this.textBoxClassId = new System.Windows.Forms.TextBox();
-			this.label6 = new System.Windows.Forms.Label();
-			this.labelStatus = new System.Windows.Forms.Label();
+			this.textBoxEventName = new System.Windows.Forms.TextBox();
+			this.label8 = new System.Windows.Forms.Label();
 			this.textBoxDateTimeString = new System.Windows.Forms.TextBox();
 			this.label7 = new System.Windows.Forms.Label();
-			this.label8 = new System.Windows.Forms.Label();
-			this.textBoxEventName = new System.Windows.Forms.TextBox();
+			this.labelStatus = new System.Windows.Forms.Label();
+			this.label6 = new System.Windows.Forms.Label();
+			this.textBoxClassId = new System.Windows.Forms.TextBox();
+			this.label5 = new System.Windows.Forms.Label();
+			this.richTextBoxEventDataHex = new System.Windows.Forms.RichTextBox();
+			this.label4 = new System.Windows.Forms.Label();
+			this.groupBoxWasChangedEvent = new System.Windows.Forms.GroupBox();
+			this.label9 = new System.Windows.Forms.Label();
+			this.textBoxWasChangedEventContainerClassId = new System.Windows.Forms.TextBox();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
+			this.groupBoxWasChangedEvent.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// label2
@@ -108,7 +112,7 @@
 			this.groupBox1.Controls.Add(this.label1);
 			this.groupBox1.Controls.Add(this.label2);
 			this.groupBox1.Controls.Add(this.textBox2);
-			this.groupBox1.Location = new System.Drawing.Point(12, 12);
+			this.groupBox1.Location = new System.Drawing.Point(12, 305);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(570, 108);
 			this.groupBox1.TabIndex = 11;
@@ -117,6 +121,7 @@
 			// 
 			// groupBox2
 			// 
+			this.groupBox2.Controls.Add(this.groupBoxWasChangedEvent);
 			this.groupBox2.Controls.Add(this.textBoxEventName);
 			this.groupBox2.Controls.Add(this.label8);
 			this.groupBox2.Controls.Add(this.textBoxDateTimeString);
@@ -127,64 +132,28 @@
 			this.groupBox2.Controls.Add(this.label5);
 			this.groupBox2.Controls.Add(this.richTextBoxEventDataHex);
 			this.groupBox2.Controls.Add(this.label4);
-			this.groupBox2.Location = new System.Drawing.Point(12, 126);
+			this.groupBox2.Location = new System.Drawing.Point(12, 12);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(570, 197);
+			this.groupBox2.Size = new System.Drawing.Size(698, 265);
 			this.groupBox2.TabIndex = 12;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Event Converter";
 			// 
-			// label4
+			// textBoxEventName
 			// 
-			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(12, 29);
-			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(92, 13);
-			this.label4.TabIndex = 7;
-			this.label4.Text = "Input -> Hex data:";
+			this.textBoxEventName.Location = new System.Drawing.Point(388, 131);
+			this.textBoxEventName.Name = "textBoxEventName";
+			this.textBoxEventName.Size = new System.Drawing.Size(176, 20);
+			this.textBoxEventName.TabIndex = 16;
 			// 
-			// richTextBoxEventDataHex
+			// label8
 			// 
-			this.richTextBoxEventDataHex.Location = new System.Drawing.Point(6, 45);
-			this.richTextBoxEventDataHex.Name = "richTextBoxEventDataHex";
-			this.richTextBoxEventDataHex.Size = new System.Drawing.Size(539, 61);
-			this.richTextBoxEventDataHex.TabIndex = 8;
-			this.richTextBoxEventDataHex.Text = "";
-			this.richTextBoxEventDataHex.TextChanged += new System.EventHandler(this.richTextBoxEventDataHex_TextChanged);
-			// 
-			// label5
-			// 
-			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(6, 134);
-			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(138, 13);
-			this.label5.TabIndex = 9;
-			this.label5.Text = "Output -> ClassId (Decimal):";
-			// 
-			// textBoxClassId
-			// 
-			this.textBoxClassId.Location = new System.Drawing.Point(150, 131);
-			this.textBoxClassId.Name = "textBoxClassId";
-			this.textBoxClassId.Size = new System.Drawing.Size(98, 20);
-			this.textBoxClassId.TabIndex = 10;
-			// 
-			// label6
-			// 
-			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(6, 114);
-			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(40, 13);
-			this.label6.TabIndex = 11;
-			this.label6.Text = "Status:";
-			// 
-			// labelStatus
-			// 
-			this.labelStatus.AutoSize = true;
-			this.labelStatus.Location = new System.Drawing.Point(52, 114);
-			this.labelStatus.Name = "labelStatus";
-			this.labelStatus.Size = new System.Drawing.Size(10, 13);
-			this.labelStatus.TabIndex = 12;
-			this.labelStatus.Text = "-";
+			this.label8.AutoSize = true;
+			this.label8.Location = new System.Drawing.Point(254, 134);
+			this.label8.Name = "label8";
+			this.label8.Size = new System.Drawing.Size(128, 13);
+			this.label8.TabIndex = 15;
+			this.label8.Text = "Output -> ClassId (Name):";
 			// 
 			// textBoxDateTimeString
 			// 
@@ -202,27 +171,90 @@
 			this.label7.TabIndex = 13;
 			this.label7.Text = "Output -> DateTime (String):";
 			// 
-			// label8
+			// labelStatus
 			// 
-			this.label8.AutoSize = true;
-			this.label8.Location = new System.Drawing.Point(254, 134);
-			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(128, 13);
-			this.label8.TabIndex = 15;
-			this.label8.Text = "Output -> ClassId (Name):";
+			this.labelStatus.AutoSize = true;
+			this.labelStatus.Location = new System.Drawing.Point(52, 114);
+			this.labelStatus.Name = "labelStatus";
+			this.labelStatus.Size = new System.Drawing.Size(10, 13);
+			this.labelStatus.TabIndex = 12;
+			this.labelStatus.Text = "-";
 			// 
-			// textBoxEventName
+			// label6
 			// 
-			this.textBoxEventName.Location = new System.Drawing.Point(388, 131);
-			this.textBoxEventName.Name = "textBoxEventName";
-			this.textBoxEventName.Size = new System.Drawing.Size(176, 20);
-			this.textBoxEventName.TabIndex = 16;
+			this.label6.AutoSize = true;
+			this.label6.Location = new System.Drawing.Point(6, 114);
+			this.label6.Name = "label6";
+			this.label6.Size = new System.Drawing.Size(40, 13);
+			this.label6.TabIndex = 11;
+			this.label6.Text = "Status:";
+			// 
+			// textBoxClassId
+			// 
+			this.textBoxClassId.Location = new System.Drawing.Point(150, 131);
+			this.textBoxClassId.Name = "textBoxClassId";
+			this.textBoxClassId.Size = new System.Drawing.Size(98, 20);
+			this.textBoxClassId.TabIndex = 10;
+			// 
+			// label5
+			// 
+			this.label5.AutoSize = true;
+			this.label5.Location = new System.Drawing.Point(6, 134);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(138, 13);
+			this.label5.TabIndex = 9;
+			this.label5.Text = "Output -> ClassId (Decimal):";
+			// 
+			// richTextBoxEventDataHex
+			// 
+			this.richTextBoxEventDataHex.Location = new System.Drawing.Point(6, 45);
+			this.richTextBoxEventDataHex.Name = "richTextBoxEventDataHex";
+			this.richTextBoxEventDataHex.Size = new System.Drawing.Size(539, 61);
+			this.richTextBoxEventDataHex.TabIndex = 8;
+			this.richTextBoxEventDataHex.Text = "";
+			this.richTextBoxEventDataHex.TextChanged += new System.EventHandler(this.richTextBoxEventDataHex_TextChanged);
+			// 
+			// label4
+			// 
+			this.label4.AutoSize = true;
+			this.label4.Location = new System.Drawing.Point(12, 29);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(92, 13);
+			this.label4.TabIndex = 7;
+			this.label4.Text = "Input -> Hex data:";
+			// 
+			// groupBoxWasChangedEvent
+			// 
+			this.groupBoxWasChangedEvent.Controls.Add(this.textBoxWasChangedEventContainerClassId);
+			this.groupBoxWasChangedEvent.Controls.Add(this.label9);
+			this.groupBoxWasChangedEvent.Location = new System.Drawing.Point(314, 157);
+			this.groupBoxWasChangedEvent.Name = "groupBoxWasChangedEvent";
+			this.groupBoxWasChangedEvent.Size = new System.Drawing.Size(373, 90);
+			this.groupBoxWasChangedEvent.TabIndex = 17;
+			this.groupBoxWasChangedEvent.TabStop = false;
+			this.groupBoxWasChangedEvent.Text = "WasChangedEvent";
+			// 
+			// label9
+			// 
+			this.label9.AutoSize = true;
+			this.label9.Location = new System.Drawing.Point(6, 16);
+			this.label9.Name = "label9";
+			this.label9.Size = new System.Drawing.Size(138, 13);
+			this.label9.TabIndex = 10;
+			this.label9.Text = "Output -> ClassId (Decimal):";
+			// 
+			// textBoxWasChangedEventContainerClassId
+			// 
+			this.textBoxWasChangedEventContainerClassId.Location = new System.Drawing.Point(150, 13);
+			this.textBoxWasChangedEventContainerClassId.Name = "textBoxWasChangedEventContainerClassId";
+			this.textBoxWasChangedEventContainerClassId.Size = new System.Drawing.Size(98, 20);
+			this.textBoxWasChangedEventContainerClassId.TabIndex = 11;
 			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(594, 401);
+			this.ClientSize = new System.Drawing.Size(722, 425);
 			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.groupBox1);
 			this.Margin = new System.Windows.Forms.Padding(2);
@@ -232,6 +264,8 @@
 			this.groupBox1.PerformLayout();
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox2.PerformLayout();
+			this.groupBoxWasChangedEvent.ResumeLayout(false);
+			this.groupBoxWasChangedEvent.PerformLayout();
 			this.ResumeLayout(false);
 
         }
@@ -255,6 +289,9 @@
 		private System.Windows.Forms.Label label7;
 		private System.Windows.Forms.TextBox textBoxEventName;
 		private System.Windows.Forms.Label label8;
+		private System.Windows.Forms.GroupBox groupBoxWasChangedEvent;
+		private System.Windows.Forms.TextBox textBoxWasChangedEventContainerClassId;
+		private System.Windows.Forms.Label label9;
 	}
 }
 
