@@ -188,46 +188,42 @@ namespace AutonTimeConverter
 						textBoxDateTimeString.Text = dateTime.ToString();
 					}
 
+					const UInt16 TemperatureEventId = 22820;
+					const UInt16 PressureEventId = 22821;
 					const UInt16 PressureTemperatureEventId = 22822;
 					const UInt16 WasChangedEventId = 19008;
 					const UInt16 ProcessStartedEventId = 19007;
-					if (eventId == PressureTemperatureEventId)
+					switch (eventId)
 					{
-						textBoxEventName.Text = "PressureTemperature";
-					}
-					else if (eventId == ProcessStartedEventId)
-					{
-						textBoxEventName.Text = "ProcessStartedEvent";
-					}
-					else if (eventId == WasChangedEventId)
-					{
-						textBoxEventName.Text = "WasChangedEvent";
+						case ProcessStartedEventId:
+							textBoxEventName.Text = "ProcessStartedEvent";
+							break;
+						case WasChangedEventId:
+							textBoxEventName.Text = "WasChangedEvent";
 
-						// It's event-container
-						// #TODO check string length
-						groupBoxWasChangedEvent.Enabled = true;
+							// It's event-container
+							// #TODO check string length
+							groupBoxWasChangedEvent.Enabled = true;
 
-						int startIndexPositionClassId = (int)
-							(EXPECTED_CLASS_ID_LENGTH + EXPECTED_DATE_TIME_LENGTH);
-						string classIdString =
-						richTextBoxEventDataHex.Text.Substring(
-							startIndexPositionClassId, (int)EXPECTED_CLASS_ID_LENGTH);
-						Console.WriteLine("classIdString={0}", classIdString);
-						UInt16 containeredClassId = GetUint16FromString(classIdString);
-						textBoxWasChangedEventContainerClassId.Text = containeredClassId.ToString();
-
-						int startIndexPositionDateTime =
-							startIndexPositionClassId + (int)EXPECTED_CLASS_ID_LENGTH;// +
-							//(int)LOCATION_ID_LENGTH;
-						string dateTimeString =
+							int startIndexPositionClassId = (int)
+								(EXPECTED_CLASS_ID_LENGTH + EXPECTED_DATE_TIME_LENGTH);
+							string classIdString =
 							richTextBoxEventDataHex.Text.Substring(
-								startIndexPositionDateTime, (int)EXPECTED_DATE_TIME_LENGTH);
-						Console.WriteLine("startIndexPositionDateTime={0}", startIndexPositionDateTime);
-						Console.WriteLine("dateTimeString={0}", dateTimeString);
+								startIndexPositionClassId, (int)EXPECTED_CLASS_ID_LENGTH);
+							Console.WriteLine("classIdString={0}", classIdString);
+							UInt16 containeredClassId = GetUint16FromString(classIdString);
+							textBoxWasChangedEventContainerClassId.Text = containeredClassId.ToString();
+							break;
 
-						UInt32 time = GetUint32FromString(dateTimeString);
-						DateTime dateTime = GetActualDateTime(time);
-						textBoxWasChangedEventContainerDateTime.Text = dateTime.ToString();
+						case TemperatureEventId:
+							textBoxEventName.Text = "Temperature";
+							break;
+						case PressureEventId:
+							textBoxEventName.Text = "Pressure";
+							break;
+						case PressureTemperatureEventId:
+							textBoxEventName.Text = "PressureTemperature";
+							break;
 					}
 				}
 			}
@@ -246,7 +242,6 @@ namespace AutonTimeConverter
 
 			groupBoxWasChangedEvent.Enabled = false;
 			textBoxWasChangedEventContainerClassId.Text = "";
-			textBoxWasChangedEventContainerDateTime.Text = "";
 		}
 	}
 }
