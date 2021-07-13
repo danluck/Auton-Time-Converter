@@ -49,6 +49,8 @@
 			this.groupBoxWasChangedEvent = new System.Windows.Forms.GroupBox();
 			this.label9 = new System.Windows.Forms.Label();
 			this.textBoxWasChangedEventContainerClassId = new System.Windows.Forms.TextBox();
+			this.label10 = new System.Windows.Forms.Label();
+			this.textBoxWasChangedEventContainerDateTime = new System.Windows.Forms.TextBox();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.groupBoxWasChangedEvent.SuspendLayout();
@@ -134,7 +136,7 @@
 			this.groupBox2.Controls.Add(this.label4);
 			this.groupBox2.Location = new System.Drawing.Point(12, 12);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(698, 265);
+			this.groupBox2.Size = new System.Drawing.Size(654, 265);
 			this.groupBox2.TabIndex = 12;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Event Converter";
@@ -225,11 +227,13 @@
 			// 
 			// groupBoxWasChangedEvent
 			// 
+			this.groupBoxWasChangedEvent.Controls.Add(this.textBoxWasChangedEventContainerDateTime);
+			this.groupBoxWasChangedEvent.Controls.Add(this.label10);
 			this.groupBoxWasChangedEvent.Controls.Add(this.textBoxWasChangedEventContainerClassId);
 			this.groupBoxWasChangedEvent.Controls.Add(this.label9);
 			this.groupBoxWasChangedEvent.Location = new System.Drawing.Point(314, 157);
 			this.groupBoxWasChangedEvent.Name = "groupBoxWasChangedEvent";
-			this.groupBoxWasChangedEvent.Size = new System.Drawing.Size(373, 90);
+			this.groupBoxWasChangedEvent.Size = new System.Drawing.Size(326, 70);
 			this.groupBoxWasChangedEvent.TabIndex = 17;
 			this.groupBoxWasChangedEvent.TabStop = false;
 			this.groupBoxWasChangedEvent.Text = "WasChangedEvent";
@@ -250,11 +254,27 @@
 			this.textBoxWasChangedEventContainerClassId.Size = new System.Drawing.Size(98, 20);
 			this.textBoxWasChangedEventContainerClassId.TabIndex = 11;
 			// 
+			// label10
+			// 
+			this.label10.AutoSize = true;
+			this.label10.Location = new System.Drawing.Point(6, 42);
+			this.label10.Name = "label10";
+			this.label10.Size = new System.Drawing.Size(139, 13);
+			this.label10.TabIndex = 14;
+			this.label10.Text = "Output -> DateTime (String):";
+			// 
+			// textBoxWasChangedEventContainerDateTime
+			// 
+			this.textBoxWasChangedEventContainerDateTime.Location = new System.Drawing.Point(150, 39);
+			this.textBoxWasChangedEventContainerDateTime.Name = "textBoxWasChangedEventContainerDateTime";
+			this.textBoxWasChangedEventContainerDateTime.Size = new System.Drawing.Size(158, 20);
+			this.textBoxWasChangedEventContainerDateTime.TabIndex = 15;
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(722, 425);
+			this.ClientSize = new System.Drawing.Size(675, 425);
 			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.groupBox1);
 			this.Margin = new System.Windows.Forms.Padding(2);
@@ -292,6 +312,8 @@
 		private System.Windows.Forms.GroupBox groupBoxWasChangedEvent;
 		private System.Windows.Forms.TextBox textBoxWasChangedEventContainerClassId;
 		private System.Windows.Forms.Label label9;
+		private System.Windows.Forms.TextBox textBoxWasChangedEventContainerDateTime;
+		private System.Windows.Forms.Label label10;
 	}
 }
 

@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{21B2693C-1A6E-4933-B6DF-443313EF7AA0}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <RootNamespace>AutonTimeConverter</RootNamespace>
     <AssemblyName>AutonTimeConverter</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>

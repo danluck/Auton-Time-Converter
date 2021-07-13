@@ -25,6 +25,10 @@ namespace AutonTimeConverter
 		const UInt32 EXPECTED_CLASS_ID_LENGTH =
 			EXPECTED_CLASS_ID_BYTE_LENGTH * BYTE_SYMBOLS_COUNT;
 
+// 		const UInt32 LOCATION_ID_BYTE_LENGTH = 8;
+// 		const UInt32 LOCATION_ID_LENGTH = 
+// 			LOCATION_ID_BYTE_LENGTH * BYTE_SYMBOLS_COUNT;
+
 		public Form1()
 		{
 			InitializeComponent();
@@ -87,6 +91,34 @@ namespace AutonTimeConverter
 			return 0;
 		}
 
+		private UInt16 GetUint16FromString(string text)
+		{
+			UInt16 classId = 0;
+			UInt16 eventId = 0;
+			try
+			{
+				classId = Convert.ToUInt16(text, 16);
+			}
+			catch (System.Exception ex)
+			{
+			}
+
+			byte[] sourceBytes = BitConverter.GetBytes(classId);
+			Console.WriteLine("sourceBytes.Length={0}", sourceBytes.Length);
+			if (sourceBytes.Length == EXPECTED_CLASS_ID_BYTE_LENGTH)
+			{
+				// Convert to Little Endian (DCBA)
+				var resultBytes = new byte[EXPECTED_CLASS_ID_BYTE_LENGTH];
+				resultBytes[0] = sourceBytes[1];
+				resultBytes[1] = sourceBytes[0];
+
+				eventId = BitConverter.ToUInt16(resultBytes, 0);
+				Console.WriteLine("result={0}", eventId);
+			}
+
+			return eventId;
+		}
+
 		private void DoHexConvertion()
 		{
 			Console.WriteLine("textBoxHex.Text.Length={0}", textBoxHex.Text.Length);
@@ -126,29 +158,20 @@ namespace AutonTimeConverter
 			{
 				labelStatus.Text = "Ok";
 
-				UInt16 classId = 0;
+				UInt16 eventId = 0;
 				try
 				{
 					string classIdString = 
 						richTextBoxEventDataHex.Text.Substring(
 							0, (int)EXPECTED_CLASS_ID_LENGTH);
-					classId = Convert.ToUInt16(classIdString, 16);
+					eventId = GetUint16FromString(classIdString);
 				}
 				catch (System.Exception ex)
 				{
 				}
 
-				byte[] sourceBytes = BitConverter.GetBytes(classId);
-				Console.WriteLine("sourceBytes.Length={0}", sourceBytes.Length);
-				if (sourceBytes.Length == EXPECTED_CLASS_ID_BYTE_LENGTH)
+				if (eventId != 0)
 				{
-					// Convert to Little Endian (DCBA)
-					var resultBytes = new byte[EXPECTED_CLASS_ID_BYTE_LENGTH];
-					resultBytes[0] = sourceBytes[1];
-					resultBytes[1] = sourceBytes[0];
-
-					UInt16 eventId = BitConverter.ToUInt16(resultBytes, 0);
-					Console.WriteLine("result={0}", eventId);
 					textBoxClassId.Text = eventId.ToString();
 
 					if (length >= (EXPECTED_CLASS_ID_LENGTH + EXPECTED_DATE_TIME_LENGTH))
@@ -167,24 +190,44 @@ namespace AutonTimeConverter
 
 					const UInt16 PressureTemperatureEventId = 22822;
 					const UInt16 WasChangedEventId = 19008;
+					const UInt16 ProcessStartedEventId = 19007;
 					if (eventId == PressureTemperatureEventId)
 					{
 						textBoxEventName.Text = "PressureTemperature";
+					}
+					else if (eventId == ProcessStartedEventId)
+					{
+						textBoxEventName.Text = "ProcessStartedEvent";
 					}
 					else if (eventId == WasChangedEventId)
 					{
 						textBoxEventName.Text = "WasChangedEvent";
 
 						// It's event-container
+						// #TODO check string length
 						groupBoxWasChangedEvent.Enabled = true;
 
-						int startIndexPosition = (int)
+						int startIndexPositionClassId = (int)
 							(EXPECTED_CLASS_ID_LENGTH + EXPECTED_DATE_TIME_LENGTH);
 						string classIdString =
 						richTextBoxEventDataHex.Text.Substring(
-							startIndexPosition, (int)EXPECTED_CLASS_ID_LENGTH);
-						classId = Convert.ToUInt16(classIdString, 16);
+							startIndexPositionClassId, (int)EXPECTED_CLASS_ID_LENGTH);
 						Console.WriteLine("classIdString={0}", classIdString);
+						UInt16 containeredClassId = GetUint16FromString(classIdString);
+						textBoxWasChangedEventContainerClassId.Text = containeredClassId.ToString();
+
+						int startIndexPositionDateTime =
+							startIndexPositionClassId + (int)EXPECTED_CLASS_ID_LENGTH;// +
+							//(int)LOCATION_ID_LENGTH;
+						string dateTimeString =
+							richTextBoxEventDataHex.Text.Substring(
+								startIndexPositionDateTime, (int)EXPECTED_DATE_TIME_LENGTH);
+						Console.WriteLine("startIndexPositionDateTime={0}", startIndexPositionDateTime);
+						Console.WriteLine("dateTimeString={0}", dateTimeString);
+
+						UInt32 time = GetUint32FromString(dateTimeString);
+						DateTime dateTime = GetActualDateTime(time);
+						textBoxWasChangedEventContainerDateTime.Text = dateTime.ToString();
 					}
 				}
 			}
@@ -202,6 +245,8 @@ namespace AutonTimeConverter
 			textBoxEventName.Text = "";
 
 			groupBoxWasChangedEvent.Enabled = false;
+			textBoxWasChangedEventContainerClassId.Text = "";
+			textBoxWasChangedEventContainerDateTime.Text = "";
 		}
 	}
 }
