@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+//using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -150,11 +151,11 @@ namespace AutonTimeConverter
 		{
 			ClearEventOutput();
 
-			var inputString = richTextBoxEventDataHex.Text;
+			var inputString = richTextBoxEventDataHex.Text.Replace(" ", String.Empty);
+			if (!richTextBoxEventDataHex.Text.Equals(inputString))
+				richTextBoxEventDataHex.Text = inputString;
 
 			var length = inputString.Length;
-			Console.WriteLine("richTextBoxEventDataHex.Text.Length={0}", length);
-
 			if (length % BYTE_SYMBOLS_COUNT == 0 &&
 				length >= EXPECTED_CLASS_ID_LENGTH)
 			{
