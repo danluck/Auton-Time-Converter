@@ -150,7 +150,9 @@ namespace AutonTimeConverter
 		{
 			ClearEventOutput();
 
-			var length = richTextBoxEventDataHex.Text.Length;
+			var inputString = richTextBoxEventDataHex.Text;
+
+			var length = inputString.Length;
 			Console.WriteLine("richTextBoxEventDataHex.Text.Length={0}", length);
 
 			if (length % BYTE_SYMBOLS_COUNT == 0 &&
@@ -161,8 +163,8 @@ namespace AutonTimeConverter
 				UInt16 eventId = 0;
 				try
 				{
-					string classIdString = 
-						richTextBoxEventDataHex.Text.Substring(
+					string classIdString =
+						inputString.Substring(
 							0, (int)EXPECTED_CLASS_ID_LENGTH);
 					eventId = GetUint16FromString(classIdString);
 				}
@@ -179,7 +181,7 @@ namespace AutonTimeConverter
 						int startIndexPosition = (int)EXPECTED_CLASS_ID_LENGTH;
 						Console.WriteLine("startIndexPosition={0}", startIndexPosition);
 						string dateTimeString =
-							richTextBoxEventDataHex.Text.Substring(
+							inputString.Substring(
 								startIndexPosition, (int)EXPECTED_DATE_TIME_LENGTH);
 						Console.WriteLine("dateTimeString={0}", dateTimeString);
 
@@ -208,7 +210,7 @@ namespace AutonTimeConverter
 							int startIndexPositionClassId = (int)
 								(EXPECTED_CLASS_ID_LENGTH + EXPECTED_DATE_TIME_LENGTH);
 							string classIdString =
-							richTextBoxEventDataHex.Text.Substring(
+							inputString.Substring(
 								startIndexPositionClassId, (int)EXPECTED_CLASS_ID_LENGTH);
 							Console.WriteLine("classIdString={0}", classIdString);
 							UInt16 containeredClassId = GetUint16FromString(classIdString);
