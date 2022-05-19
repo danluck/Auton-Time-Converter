@@ -26,11 +26,21 @@ namespace AutonTimeConverter
 		const UInt32 EXPECTED_CLASS_ID_LENGTH =
 			EXPECTED_CLASS_ID_BYTE_LENGTH * BYTE_SYMBOLS_COUNT;
 
-// 		const UInt32 LOCATION_ID_BYTE_LENGTH = 8;
-// 		const UInt32 LOCATION_ID_LENGTH = 
-// 			LOCATION_ID_BYTE_LENGTH * BYTE_SYMBOLS_COUNT;
+        // Temperature Текущая температура (0.01С) int16
+        const UInt32 EXPECTED_TEMPERATURE_BYTE_LENGTH = 2;
+        const UInt32 EXPECTED_TEMPERATURE_LENGTH =
+            EXPECTED_TEMPERATURE_BYTE_LENGTH * BYTE_SYMBOLS_COUNT;
 
-		public Form1()
+        // Temperature Cчетчик изменений состояния технологического процесса uint32
+        const UInt32 EXPECTED_STATE_CHANGE_COUNTER_BYTE_LENGTH = 4;
+        const UInt32 EXPECTED_STATE_CHANGE_COUNTER_LENGTH =
+            EXPECTED_STATE_CHANGE_COUNTER_BYTE_LENGTH * BYTE_SYMBOLS_COUNT;
+
+        // 		const UInt32 LOCATION_ID_BYTE_LENGTH = 8;
+        // 		const UInt32 LOCATION_ID_LENGTH = 
+        // 			LOCATION_ID_BYTE_LENGTH * BYTE_SYMBOLS_COUNT;
+
+        public Form1()
 		{
 			InitializeComponent();
 			ClearEventOutput();
@@ -120,7 +130,35 @@ namespace AutonTimeConverter
 			return eventId;
 		}
 
-		private void DoHexConvertion()
+        private Int16 GetInt16FromString(string text)
+        {
+            UInt16 classId = 0;
+            Int16 eventId = 0;
+            try
+            {
+                classId = Convert.ToUInt16(text, 16);
+            }
+            catch (System.Exception ex)
+            {
+            }
+
+            byte[] sourceBytes = BitConverter.GetBytes(classId);
+            Console.WriteLine("sourceBytes.Length={0}", sourceBytes.Length);
+            if (sourceBytes.Length == EXPECTED_CLASS_ID_BYTE_LENGTH)
+            {
+                // Convert to Little Endian (DCBA)
+                var resultBytes = new byte[EXPECTED_CLASS_ID_BYTE_LENGTH];
+                resultBytes[0] = sourceBytes[1];
+                resultBytes[1] = sourceBytes[0];
+
+                eventId = BitConverter.ToInt16(resultBytes, 0);
+                Console.WriteLine("result={0}", eventId);
+            }
+
+            return eventId;
+        }
+
+        private void DoHexConvertion()
 		{
 			Console.WriteLine("textBoxHex.Text.Length={0}", textBoxHex.Text.Length);
 			int expectedLength = (int)(EXPECTED_DATE_TIME_BYTE_LENGTH * BYTE_SYMBOLS_COUNT);
@@ -176,8 +214,9 @@ namespace AutonTimeConverter
 				if (eventId != 0)
 				{
 					textBoxClassId.Text = eventId.ToString();
+                    int startIndexPositionData = 0;
 
-					if (length >= (EXPECTED_CLASS_ID_LENGTH + EXPECTED_DATE_TIME_LENGTH))
+                    if (length >= (EXPECTED_CLASS_ID_LENGTH + EXPECTED_DATE_TIME_LENGTH))
 					{
 						int startIndexPosition = (int)EXPECTED_CLASS_ID_LENGTH;
 						Console.WriteLine("startIndexPosition={0}", startIndexPosition);
@@ -186,7 +225,10 @@ namespace AutonTimeConverter
 								startIndexPosition, (int)EXPECTED_DATE_TIME_LENGTH);
 						Console.WriteLine("dateTimeString={0}", dateTimeString);
 
-						UInt32 time = GetUint32FromString(dateTimeString);
+                        startIndexPositionData = (int)
+                            (EXPECTED_CLASS_ID_LENGTH + EXPECTED_DATE_TIME_LENGTH);
+
+                        UInt32 time = GetUint32FromString(dateTimeString);
 						DateTime dateTime = GetActualDateTime(time);
 						textBoxDateTimeString.Text = dateTime.ToString();
 					}
@@ -194,7 +236,8 @@ namespace AutonTimeConverter
 					const UInt16 TemperatureEventId = 22820;
 					const UInt16 PressureEventId = 22821;
 					const UInt16 PressureTemperatureEventId = 22822;
-					const UInt16 WasChangedEventId = 19008;
+                    const UInt16 DiscontinuousMonitoringEventEventId = 22550;
+                    const UInt16 WasChangedEventId = 19008;
 					const UInt16 ProcessStartedEventId = 19007;
 					switch (eventId)
 					{
@@ -207,12 +250,8 @@ namespace AutonTimeConverter
 							// It's event-container
 							// #TODO check string length
 							groupBoxWasChangedEvent.Enabled = true;
-
-							int startIndexPositionClassId = (int)
-								(EXPECTED_CLASS_ID_LENGTH + EXPECTED_DATE_TIME_LENGTH);
-							string classIdString =
-							inputString.Substring(
-								startIndexPositionClassId, (int)EXPECTED_CLASS_ID_LENGTH);
+							string classIdString = inputString.Substring(
+								startIndexPositionData, (int)EXPECTED_CLASS_ID_LENGTH);
 							Console.WriteLine("classIdString={0}", classIdString);
 							UInt16 containeredClassId = GetUint16FromString(classIdString);
 							textBoxWasChangedEventContainerClassId.Text = containeredClassId.ToString();
@@ -220,15 +259,29 @@ namespace AutonTimeConverter
 
 						case TemperatureEventId:
 							textBoxEventName.Text = "Temperature";
-
-							break;
+                            string temperatureDataString = inputString.Substring(
+                                startIndexPositionData, (int)EXPECTED_TEMPERATURE_LENGTH);
+                            Int16 temperature = GetInt16FromString(temperatureDataString);
+                            richTextBoxCommon.Text += "temperature 0.01°C=";
+                            richTextBoxCommon.Text += temperature.ToString();
+                            break;
 						case PressureEventId:
 							textBoxEventName.Text = "Pressure";
 							break;
 						case PressureTemperatureEventId:
 							textBoxEventName.Text = "PressureTemperature";
 							break;
-					}
+
+                        case DiscontinuousMonitoringEventEventId:
+                            textBoxEventName.Text = "DiscontinuousMonitoringEvent";
+                            string dataString = inputString.Substring(
+                                startIndexPositionData, (int)EXPECTED_STATE_CHANGE_COUNTER_LENGTH);
+                            UInt32 data = GetUint32FromString(dataString);
+                            richTextBoxCommon.Text += "StateChangedCounter=";
+                            richTextBoxCommon.Text += data.ToString();
+                            break;
+
+                    }
 				}
 			}
 			else
@@ -246,6 +299,7 @@ namespace AutonTimeConverter
 
 			groupBoxWasChangedEvent.Enabled = false;
 			textBoxWasChangedEventContainerClassId.Text = "";
+            richTextBoxCommon.Text = "";
 		}
 	}
 }
