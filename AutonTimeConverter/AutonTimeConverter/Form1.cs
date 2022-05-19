@@ -220,6 +220,7 @@ namespace AutonTimeConverter
 
 						case TemperatureEventId:
 							textBoxEventName.Text = "Temperature";
+
 							break;
 						case PressureEventId:
 							textBoxEventName.Text = "Pressure";
