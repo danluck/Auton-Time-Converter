@@ -193,22 +193,24 @@ namespace AutonTimeConverter
 			if (!richTextBoxEventDataHex.Text.Equals(inputString))
 				richTextBoxEventDataHex.Text = inputString;
 
-            richTextBoxHistory.Text += inputString + "\r\n";
-
             var length = inputString.Length;
 			if (length % BYTE_SYMBOLS_COUNT == 0 &&
 				length >= EXPECTED_CLASS_ID_LENGTH)
 			{
 				labelStatus.Text = "Ok";
+                richTextBoxHistory.Text += inputString + " ";
 
-				UInt16 eventId = 0;
+                UInt16 eventId = 0;
 				try
 				{
 					string classIdString =
 						inputString.Substring(
 							0, (int)EXPECTED_CLASS_ID_LENGTH);
 					eventId = GetUint16FromString(classIdString);
-				}
+                    if (eventId != 0)
+                        richTextBoxHistory.Text += eventId.ToString() + " ";
+
+                }
 				catch (System.Exception ex)
 				{
 				}
@@ -221,11 +223,11 @@ namespace AutonTimeConverter
                     if (length >= (EXPECTED_CLASS_ID_LENGTH + EXPECTED_DATE_TIME_LENGTH))
 					{
 						int startIndexPosition = (int)EXPECTED_CLASS_ID_LENGTH;
-						Console.WriteLine("startIndexPosition={0}", startIndexPosition);
 						string dateTimeString =
 							inputString.Substring(
 								startIndexPosition, (int)EXPECTED_DATE_TIME_LENGTH);
 						Console.WriteLine("dateTimeString={0}", dateTimeString);
+                       
 
                         startIndexPositionData = (int)
                             (EXPECTED_CLASS_ID_LENGTH + EXPECTED_DATE_TIME_LENGTH);
@@ -233,7 +235,8 @@ namespace AutonTimeConverter
                         UInt32 time = GetUint32FromString(dateTimeString);
 						DateTime dateTime = GetActualDateTime(time);
 						textBoxDateTimeString.Text = dateTime.ToString();
-					}
+                        richTextBoxHistory.Text += dateTime.ToString() + " ";
+                    }
 
                     const UInt16 TimeCorruptWarningEventId = 18004;
 
@@ -291,10 +294,10 @@ namespace AutonTimeConverter
                             richTextBoxCommon.Text += "StateChangedCounter=";
                             richTextBoxCommon.Text += data.ToString();
                             break;
-
                     }
 				}
-			}
+                richTextBoxHistory.Text += "\r\n";
+            }
 			else
 			{
 				labelStatus.Text = "Incorrect length";
