@@ -193,7 +193,9 @@ namespace AutonTimeConverter
 			if (!richTextBoxEventDataHex.Text.Equals(inputString))
 				richTextBoxEventDataHex.Text = inputString;
 
-			var length = inputString.Length;
+            richTextBoxHistory.Text += inputString + "\r\n";
+
+            var length = inputString.Length;
 			if (length % BYTE_SYMBOLS_COUNT == 0 &&
 				length >= EXPECTED_CLASS_ID_LENGTH)
 			{
@@ -246,7 +248,11 @@ namespace AutonTimeConverter
 
                     switch (eventId)
 					{
-						case ProcessStartedEventId:
+                        case TimeCorruptWarningEventId:
+                            textBoxEventName.Text = "TimeCorruptWarningEvent";
+                            break;
+
+                        case ProcessStartedEventId:
 							textBoxEventName.Text = "ProcessStartedEvent";
 							break;
 						case WasChangedEventId:
