@@ -36,6 +36,8 @@
             this.textBoxHex = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.richTextBoxCommon = new System.Windows.Forms.RichTextBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.groupBoxWasChangedEvent = new System.Windows.Forms.GroupBox();
             this.textBoxWasChangedEventContainerClassId = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -49,8 +51,8 @@
             this.label5 = new System.Windows.Forms.Label();
             this.richTextBoxEventDataHex = new System.Windows.Forms.RichTextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.richTextBoxCommon = new System.Windows.Forms.RichTextBox();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.label11 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBoxWasChangedEvent.SuspendLayout();
@@ -142,6 +144,23 @@
             this.groupBox2.TabIndex = 12;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Event Converter";
+            // 
+            // richTextBoxCommon
+            // 
+            this.richTextBoxCommon.Location = new System.Drawing.Point(9, 193);
+            this.richTextBoxCommon.Name = "richTextBoxCommon";
+            this.richTextBoxCommon.Size = new System.Drawing.Size(299, 66);
+            this.richTextBoxCommon.TabIndex = 19;
+            this.richTextBoxCommon.Text = "";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(6, 177);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(95, 13);
+            this.label10.TabIndex = 18;
+            this.label10.Text = "Output -> Common";
             // 
             // groupBoxWasChangedEvent
             // 
@@ -254,28 +273,30 @@
             this.label4.TabIndex = 7;
             this.label4.Text = "Input -> Hex data:";
             // 
-            // label10
+            // richTextBox1
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(6, 177);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(95, 13);
-            this.label10.TabIndex = 18;
-            this.label10.Text = "Output -> Common";
+            this.richTextBox1.Location = new System.Drawing.Point(672, 22);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(437, 391);
+            this.richTextBox1.TabIndex = 13;
+            this.richTextBox1.Text = "";
             // 
-            // richTextBoxCommon
+            // label11
             // 
-            this.richTextBoxCommon.Location = new System.Drawing.Point(9, 193);
-            this.richTextBoxCommon.Name = "richTextBoxCommon";
-            this.richTextBoxCommon.Size = new System.Drawing.Size(299, 66);
-            this.richTextBoxCommon.TabIndex = 19;
-            this.richTextBoxCommon.Text = "";
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(672, 6);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(42, 13);
+            this.label11.TabIndex = 14;
+            this.label11.Text = "History:";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(675, 425);
+            this.ClientSize = new System.Drawing.Size(1115, 425);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Margin = new System.Windows.Forms.Padding(2);
@@ -288,6 +309,7 @@
             this.groupBoxWasChangedEvent.ResumeLayout(false);
             this.groupBoxWasChangedEvent.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -315,6 +337,8 @@
 		private System.Windows.Forms.Label label9;
         private System.Windows.Forms.RichTextBox richTextBoxCommon;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.Label label11;
     }
 }
 
