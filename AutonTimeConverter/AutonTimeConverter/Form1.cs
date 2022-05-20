@@ -185,6 +185,11 @@ namespace AutonTimeConverter
 			textBox2.Text = GetActualDateTime(seconds).ToString();
 		}
 
+        private void AddHistory(string text)
+        {
+            richTextBoxHistory.Text += text + " ";
+        }
+
 		private void richTextBoxEventDataHex_TextChanged(object sender, EventArgs e)
 		{
 			ClearEventOutput();
@@ -198,8 +203,7 @@ namespace AutonTimeConverter
 				length >= EXPECTED_CLASS_ID_LENGTH)
 			{
 				labelStatus.Text = "Ok";
-                richTextBoxHistory.Text += inputString + " ";
-
+                AddHistory(inputString);
                 UInt16 eventId = 0;
 				try
 				{
@@ -207,17 +211,13 @@ namespace AutonTimeConverter
 						inputString.Substring(
 							0, (int)EXPECTED_CLASS_ID_LENGTH);
 					eventId = GetUint16FromString(classIdString);
-                    if (eventId != 0)
-                        richTextBoxHistory.Text += eventId.ToString() + " ";
-
                 }
-				catch (System.Exception ex)
-				{
-				}
+				catch (System.Exception ex) { }
 
 				if (eventId != 0)
 				{
-					textBoxClassId.Text = eventId.ToString();
+                    AddHistory(eventId.ToString());
+                    textBoxClassId.Text = eventId.ToString();
                     int startIndexPositionData = 0;
 
                     if (length >= (EXPECTED_CLASS_ID_LENGTH + EXPECTED_DATE_TIME_LENGTH))
@@ -227,15 +227,13 @@ namespace AutonTimeConverter
 							inputString.Substring(
 								startIndexPosition, (int)EXPECTED_DATE_TIME_LENGTH);
 						Console.WriteLine("dateTimeString={0}", dateTimeString);
-                       
-
                         startIndexPositionData = (int)
                             (EXPECTED_CLASS_ID_LENGTH + EXPECTED_DATE_TIME_LENGTH);
 
                         UInt32 time = GetUint32FromString(dateTimeString);
 						DateTime dateTime = GetActualDateTime(time);
 						textBoxDateTimeString.Text = dateTime.ToString();
-                        richTextBoxHistory.Text += dateTime.ToString() + " ";
+                        AddHistory(dateTime.ToString());
                     }
 
                     const UInt16 TimeCorruptWarningEventId = 18004;
@@ -293,6 +291,7 @@ namespace AutonTimeConverter
                             UInt32 data = GetUint32FromString(dataString);
                             richTextBoxCommon.Text += "StateChangedCounter=";
                             richTextBoxCommon.Text += data.ToString();
+                            AddHistory(data.ToString());
                             break;
                     }
 				}
