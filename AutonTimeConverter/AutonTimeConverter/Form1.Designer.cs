@@ -300,7 +300,6 @@
             this.checkBoxCapture.TabIndex = 15;
             this.checkBoxCapture.Text = "Capture clipboard content";
             this.checkBoxCapture.UseVisualStyleBackColor = true;
-            this.checkBoxCapture.CheckedChanged += new System.EventHandler(this.richTextBoxEventDataHex_TextChanged);
             // 
             // Form1
             // 
