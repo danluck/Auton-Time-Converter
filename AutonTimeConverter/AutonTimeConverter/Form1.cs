@@ -44,6 +44,7 @@ namespace AutonTimeConverter
 		{
 			InitializeComponent();
 			ClearEventOutput();
+            checkBoxCapture.Checked = true;
 		}
 
 		private void textBox1_TextChanged(object sender, EventArgs e)
@@ -187,7 +188,7 @@ namespace AutonTimeConverter
 
         private void AddHistory(string text)
         {
-            richTextBoxHistory.Text += text + " ";
+            richTextBoxHistory.Text += text + "\t";
         }
 
 		private void richTextBoxEventDataHex_TextChanged(object sender, EventArgs e)
@@ -314,5 +315,14 @@ namespace AutonTimeConverter
 			textBoxWasChangedEventContainerClassId.Text = "";
             richTextBoxCommon.Text = "";
 		}
-	}
+
+        private void Form1_Activated(object sender, EventArgs e)
+        {
+            if (checkBoxCapture.Checked)
+            {
+                if (String.Equals(richTextBoxEventDataHex.Text, Clipboard.GetText()) == false)
+                    richTextBoxEventDataHex.Text = Clipboard.GetText();
+            }
+        }
+    }
 }

@@ -53,6 +53,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.richTextBoxHistory = new System.Windows.Forms.RichTextBox();
             this.label11 = new System.Windows.Forms.Label();
+            this.checkBoxCapture = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBoxWasChangedEvent.SuspendLayout();
@@ -277,7 +278,7 @@
             // 
             this.richTextBoxHistory.Location = new System.Drawing.Point(672, 22);
             this.richTextBoxHistory.Name = "richTextBoxHistory";
-            this.richTextBoxHistory.Size = new System.Drawing.Size(437, 391);
+            this.richTextBoxHistory.Size = new System.Drawing.Size(516, 433);
             this.richTextBoxHistory.TabIndex = 13;
             this.richTextBoxHistory.Text = "";
             // 
@@ -290,11 +291,23 @@
             this.label11.TabIndex = 14;
             this.label11.Text = "History:";
             // 
+            // checkBoxCapture
+            // 
+            this.checkBoxCapture.AutoSize = true;
+            this.checkBoxCapture.Location = new System.Drawing.Point(13, 420);
+            this.checkBoxCapture.Name = "checkBoxCapture";
+            this.checkBoxCapture.Size = new System.Drawing.Size(148, 17);
+            this.checkBoxCapture.TabIndex = 15;
+            this.checkBoxCapture.Text = "Capture clipboard content";
+            this.checkBoxCapture.UseVisualStyleBackColor = true;
+            this.checkBoxCapture.CheckedChanged += new System.EventHandler(this.richTextBoxEventDataHex_TextChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1115, 425);
+            this.ClientSize = new System.Drawing.Size(1200, 467);
+            this.Controls.Add(this.checkBoxCapture);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.richTextBoxHistory);
             this.Controls.Add(this.groupBox2);
@@ -302,6 +315,7 @@
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
             this.Text = "AutonDataConverter";
+            this.Activated += new System.EventHandler(this.Form1_Activated);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -339,6 +353,7 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.RichTextBox richTextBoxHistory;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.CheckBox checkBoxCapture;
     }
 }
 
