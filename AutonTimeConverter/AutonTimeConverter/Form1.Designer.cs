@@ -51,7 +51,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.richTextBoxEventDataHex = new System.Windows.Forms.RichTextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.richTextBoxHistory = new System.Windows.Forms.RichTextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -273,13 +273,13 @@
             this.label4.TabIndex = 7;
             this.label4.Text = "Input -> Hex data:";
             // 
-            // richTextBox1
+            // richTextBoxHistory
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(672, 22);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(437, 391);
-            this.richTextBox1.TabIndex = 13;
-            this.richTextBox1.Text = "";
+            this.richTextBoxHistory.Location = new System.Drawing.Point(672, 22);
+            this.richTextBoxHistory.Name = "richTextBoxHistory";
+            this.richTextBoxHistory.Size = new System.Drawing.Size(437, 391);
+            this.richTextBoxHistory.TabIndex = 13;
+            this.richTextBoxHistory.Text = "";
             // 
             // label11
             // 
@@ -296,7 +296,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1115, 425);
             this.Controls.Add(this.label11);
-            this.Controls.Add(this.richTextBox1);
+            this.Controls.Add(this.richTextBoxHistory);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Margin = new System.Windows.Forms.Padding(2);
@@ -337,7 +337,7 @@
 		private System.Windows.Forms.Label label9;
         private System.Windows.Forms.RichTextBox richTextBoxCommon;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.RichTextBox richTextBoxHistory;
         private System.Windows.Forms.Label label11;
     }
 }
