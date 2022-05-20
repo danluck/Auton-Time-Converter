@@ -233,13 +233,18 @@ namespace AutonTimeConverter
 						textBoxDateTimeString.Text = dateTime.ToString();
 					}
 
-					const UInt16 TemperatureEventId = 22820;
-					const UInt16 PressureEventId = 22821;
-					const UInt16 PressureTemperatureEventId = 22822;
-                    const UInt16 DiscontinuousMonitoringEventEventId = 22550;
+                    const UInt16 TimeCorruptWarningEventId = 18004;
+
+                    const UInt16 ProcessStartedEventId = 19007;
                     const UInt16 WasChangedEventId = 19008;
-					const UInt16 ProcessStartedEventId = 19007;
-					switch (eventId)
+
+                    const UInt16 DiscontinuousMonitoringEventEventId = 22550;
+
+                    const UInt16 TemperatureEventId = 22820;
+                    const UInt16 PressureEventId = 22821;
+                    const UInt16 PressureTemperatureEventId = 22822;
+
+                    switch (eventId)
 					{
 						case ProcessStartedEventId:
 							textBoxEventName.Text = "ProcessStartedEvent";
