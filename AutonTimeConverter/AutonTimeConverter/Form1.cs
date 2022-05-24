@@ -36,6 +36,10 @@ namespace AutonTimeConverter
         const UInt32 EXPECTED_STATE_CHANGE_COUNTER_LENGTH =
             EXPECTED_STATE_CHANGE_COUNTER_BYTE_LENGTH * BYTE_SYMBOLS_COUNT;
 
+        // Float
+        const UInt32 EXPECTED_FLOAT_BYTE_LENGTH = 4;
+        const UInt32 EXPECTED_FLOAT_LENGTH = EXPECTED_FLOAT_BYTE_LENGTH * BYTE_SYMBOLS_COUNT;
+
         // 		const UInt32 LOCATION_ID_BYTE_LENGTH = 8;
         // 		const UInt32 LOCATION_ID_LENGTH = 
         // 			LOCATION_ID_BYTE_LENGTH * BYTE_SYMBOLS_COUNT;
@@ -82,7 +86,6 @@ namespace AutonTimeConverter
 			}
 			catch (System.Exception ex)
 			{
-
 			}
 
 			byte[] sourceBytes = BitConverter.GetBytes(number);
@@ -103,7 +106,36 @@ namespace AutonTimeConverter
 			return 0;
 		}
 
-		private UInt16 GetUint16FromString(string text)
+        private float GetFloatFromString(string text)
+        {
+            UInt32 number = 0;
+            try
+            {
+                number = Convert.ToUInt32(text, 16);
+            }
+            catch (System.Exception ex)
+            {
+            }
+
+            byte[] sourceBytes = BitConverter.GetBytes(number);
+            if (sourceBytes.Length == EXPECTED_DATE_TIME_BYTE_LENGTH)
+            {
+                // Convert to Little Endian (DCBA)
+                var resultBytes = new byte[EXPECTED_DATE_TIME_BYTE_LENGTH];
+                resultBytes[0] = sourceBytes[3];
+                resultBytes[1] = sourceBytes[2];
+                resultBytes[2] = sourceBytes[1];
+                resultBytes[3] = sourceBytes[0];
+
+                float result = BitConverter.ToSingle(resultBytes, 0);
+                Console.WriteLine("result={0}", result);
+                return result;
+            }
+
+            return 0;
+        }
+
+        private UInt16 GetUint16FromString(string text)
 		{
 			UInt16 classId = 0;
 			UInt16 eventId = 0;
@@ -242,6 +274,8 @@ namespace AutonTimeConverter
                     const UInt16 ProcessStartedEventId = 19007;
                     const UInt16 WasChangedEventId = 19008;
 
+                    const UInt16 ConcentrationMeasureEventEventEventId = 22205;
+
                     const UInt16 DiscontinuousMonitoringEventEventId = 22550;
 
                     const UInt16 TemperatureEventId = 22820;
@@ -270,7 +304,27 @@ namespace AutonTimeConverter
 							textBoxWasChangedEventContainerClassId.Text = containeredClassId.ToString();
 							break;
 
-						case TemperatureEventId:
+                        case ConcentrationMeasureEventEventEventId:
+                            textBoxEventName.Text = "ConcentrationMeasureEvent";
+                            string data0 = inputString.Substring(
+                                startIndexPositionData, (int)EXPECTED_FLOAT_LENGTH);
+                            float dataFloat = GetFloatFromString(data0);
+                            richTextBoxCommon.Text += "Concentration=";
+                            richTextBoxCommon.Text += dataFloat.ToString();
+                            AddHistory(dataFloat.ToString());
+                            break;
+
+                        case DiscontinuousMonitoringEventEventId:
+                            textBoxEventName.Text = "DiscontinuousMonitoringEvent";
+                            string dataString = inputString.Substring(
+                                startIndexPositionData, (int)EXPECTED_STATE_CHANGE_COUNTER_LENGTH);
+                            UInt32 data = GetUint32FromString(dataString);
+                            richTextBoxCommon.Text += "StateChangedCounter=";
+                            richTextBoxCommon.Text += data.ToString();
+                            AddHistory(data.ToString());
+                            break;
+
+                        case TemperatureEventId:
 							textBoxEventName.Text = "Temperature";
                             string temperatureDataString = inputString.Substring(
                                 startIndexPositionData, (int)EXPECTED_TEMPERATURE_LENGTH);
@@ -284,16 +338,6 @@ namespace AutonTimeConverter
 						case PressureTemperatureEventId:
 							textBoxEventName.Text = "PressureTemperature";
 							break;
-
-                        case DiscontinuousMonitoringEventEventId:
-                            textBoxEventName.Text = "DiscontinuousMonitoringEvent";
-                            string dataString = inputString.Substring(
-                                startIndexPositionData, (int)EXPECTED_STATE_CHANGE_COUNTER_LENGTH);
-                            UInt32 data = GetUint32FromString(dataString);
-                            richTextBoxCommon.Text += "StateChangedCounter=";
-                            richTextBoxCommon.Text += data.ToString();
-                            AddHistory(data.ToString());
-                            break;
                     }
 				}
                 richTextBoxHistory.Text += "\r\n";
