@@ -40,6 +40,11 @@ namespace AutonTimeConverter
         const UInt32 EXPECTED_FLOAT_BYTE_LENGTH = 4;
         const UInt32 EXPECTED_FLOAT_LENGTH = EXPECTED_FLOAT_BYTE_LENGTH * BYTE_SYMBOLS_COUNT;
 
+        // int32_t
+        const UInt32 EXPECTED_INT32_BYTE_LENGTH = 4;
+        const UInt32 EXPECTED_INT32_LENGTH =
+            EXPECTED_INT32_BYTE_LENGTH * BYTE_SYMBOLS_COUNT;
+
         // 		const UInt32 LOCATION_ID_BYTE_LENGTH = 8;
         // 		const UInt32 LOCATION_ID_LENGTH = 
         // 			LOCATION_ID_BYTE_LENGTH * BYTE_SYMBOLS_COUNT;
@@ -105,6 +110,35 @@ namespace AutonTimeConverter
 
 			return 0;
 		}
+
+        private Int32 GetInt32FromString(string text)
+        {
+            UInt32 number = 0;
+            try
+            {
+                number = Convert.ToUInt32(text, 16);
+            }
+            catch (System.Exception ex)
+            {
+            }
+
+            byte[] sourceBytes = BitConverter.GetBytes(number);
+            if (sourceBytes.Length == EXPECTED_DATE_TIME_BYTE_LENGTH)
+            {
+                // Convert to Little Endian (DCBA)
+                var resultBytes = new byte[EXPECTED_DATE_TIME_BYTE_LENGTH];
+                resultBytes[0] = sourceBytes[3];
+                resultBytes[1] = sourceBytes[2];
+                resultBytes[2] = sourceBytes[1];
+                resultBytes[3] = sourceBytes[0];
+
+                Int32 result = BitConverter.ToInt32(resultBytes, 0);
+                Console.WriteLine("result={0}", result);
+                return result;
+            }
+
+            return 0;
+        }
 
         private float GetFloatFromString(string text)
         {
@@ -310,8 +344,16 @@ namespace AutonTimeConverter
                                 startIndexPositionData, (int)EXPECTED_FLOAT_LENGTH);
                             float dataFloat = GetFloatFromString(data0);
                             richTextBoxCommon.Text += "Concentration=";
-                            richTextBoxCommon.Text += dataFloat.ToString();
+                            richTextBoxCommon.Text += dataFloat.ToString() + "\r\n";
                             AddHistory(dataFloat.ToString());
+
+                            startIndexPositionData += (int)EXPECTED_FLOAT_LENGTH;
+                            string data1 = inputString.Substring(
+                                startIndexPositionData, (int)EXPECTED_INT32_LENGTH);
+                            int cas = GetInt32FromString(data1);
+                            richTextBoxCommon.Text += "Cas=";
+                            richTextBoxCommon.Text += cas.ToString();
+                            AddHistory(cas.ToString());
                             break;
 
                         case DiscontinuousMonitoringEventEventId:
