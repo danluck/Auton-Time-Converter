@@ -45,6 +45,11 @@ namespace AutonTimeConverter
         const UInt32 EXPECTED_INT32_LENGTH =
             EXPECTED_INT32_BYTE_LENGTH * BYTE_SYMBOLS_COUNT;
 
+        // uint16_t
+        const UInt32 EXPECTED_UINT16_BYTE_LENGTH = 2;
+        const UInt32 EXPECTED_UINT16_LENGTH =
+            EXPECTED_UINT16_BYTE_LENGTH * BYTE_SYMBOLS_COUNT;
+
         // 		const UInt32 LOCATION_ID_BYTE_LENGTH = 8;
         // 		const UInt32 LOCATION_ID_LENGTH = 
         // 			LOCATION_ID_BYTE_LENGTH * BYTE_SYMBOLS_COUNT;
@@ -305,6 +310,8 @@ namespace AutonTimeConverter
 
                     const UInt16 TimeCorruptWarningEventId = 18004;
 
+                    const UInt16 DeviceStateEventId = 19003;
+
                     const UInt16 ProcessStartedEventId = 19007;
                     const UInt16 WasChangedEventId = 19008;
 
@@ -320,6 +327,24 @@ namespace AutonTimeConverter
 					{
                         case TimeCorruptWarningEventId:
                             textBoxEventName.Text = "TimeCorruptWarningEvent";
+                            break;
+
+                        case DeviceStateEventId:
+                            textBoxEventName.Text = "DeviceStateEvent";
+                            string dataBattery = inputString.Substring(
+                                startIndexPositionData, (int)EXPECTED_UINT16_LENGTH);
+                            UInt16 battery = GetUint16FromString(dataBattery);
+                            richTextBoxCommon.Text += "Battery=";
+                            richTextBoxCommon.Text += battery.ToString() + "\r\n";
+                            AddHistory(battery.ToString());
+
+                            startIndexPositionData += (int)EXPECTED_UINT16_LENGTH;
+                            string dataSignal = inputString.Substring(
+                                startIndexPositionData, (int)EXPECTED_UINT16_LENGTH);
+                            UInt16 signal = GetUint16FromString(dataSignal);
+                            richTextBoxCommon.Text += "Signal=";
+                            richTextBoxCommon.Text += signal.ToString();
+                            AddHistory(signal.ToString());
                             break;
 
                         case ProcessStartedEventId:
