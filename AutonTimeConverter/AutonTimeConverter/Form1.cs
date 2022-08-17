@@ -318,6 +318,7 @@ namespace AutonTimeConverter
                     const UInt16 ConcentrationMeasureEventEventEventId = 22205;
 
                     const UInt16 CurrentResultEventId = 22405;
+                    const UInt16 Current03ResultEventId = 22406;
 
                     const UInt16 DiscontinuousMonitoringEventEventId = 22550;
 
@@ -394,14 +395,34 @@ namespace AutonTimeConverter
                                 richTextBoxCommon.Text += "Current=";
                                 richTextBoxCommon.Text += dataFloat.ToString() + "\r\n";
                                 AddHistory(dataFloat.ToString());
+                            }
+                            break;
 
-                                /*startIndexPositionData += (int)EXPECTED_FLOAT_LENGTH;
-                                string data1 = inputString.Substring(
-                                    startIndexPositionData, (int)EXPECTED_INT32_LENGTH);
-                                int cas = GetInt32FromString(data1);
-                                richTextBoxCommon.Text += "Cas=";
-                                richTextBoxCommon.Text += cas.ToString();
-                                AddHistory(cas.ToString());*/
+                        case Current03ResultEventId:
+                            {
+                                textBoxEventName.Text = "Current03ResultEvent";
+                                string data0 = inputString.Substring(
+                                    startIndexPositionData, (int)EXPECTED_FLOAT_LENGTH);
+                                float dataFloat = GetFloatFromString(data0);
+                                richTextBoxCommon.Text += "CurrentA=";
+                                richTextBoxCommon.Text += dataFloat.ToString() + "\r\n";
+                                AddHistory(dataFloat.ToString());
+
+                                startIndexPositionData += (int)EXPECTED_FLOAT_LENGTH;
+                                data0 = inputString.Substring(
+                                    startIndexPositionData, (int)EXPECTED_FLOAT_LENGTH);
+                                dataFloat = GetFloatFromString(data0);
+                                richTextBoxCommon.Text += "CurrentB=";
+                                richTextBoxCommon.Text += dataFloat.ToString() + "\r\n";
+                                AddHistory(dataFloat.ToString());
+
+                                startIndexPositionData += (int)EXPECTED_FLOAT_LENGTH;
+                                data0 = inputString.Substring(
+                                    startIndexPositionData, (int)EXPECTED_FLOAT_LENGTH);
+                                dataFloat = GetFloatFromString(data0);
+                                richTextBoxCommon.Text += "CurrentC=";
+                                richTextBoxCommon.Text += dataFloat.ToString() + "\r\n";
+                                AddHistory(dataFloat.ToString());
                             }
                             break;
 
