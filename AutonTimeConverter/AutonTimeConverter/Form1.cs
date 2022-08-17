@@ -317,6 +317,8 @@ namespace AutonTimeConverter
 
                     const UInt16 ConcentrationMeasureEventEventEventId = 22205;
 
+                    const UInt16 CurrentResultEventId = 22405;
+
                     const UInt16 DiscontinuousMonitoringEventEventId = 22550;
 
                     const UInt16 TemperatureEventId = 22820;
@@ -364,21 +366,43 @@ namespace AutonTimeConverter
 							break;
 
                         case ConcentrationMeasureEventEventEventId:
-                            textBoxEventName.Text = "ConcentrationMeasureEvent";
-                            string data0 = inputString.Substring(
-                                startIndexPositionData, (int)EXPECTED_FLOAT_LENGTH);
-                            float dataFloat = GetFloatFromString(data0);
-                            richTextBoxCommon.Text += "Concentration=";
-                            richTextBoxCommon.Text += dataFloat.ToString() + "\r\n";
-                            AddHistory(dataFloat.ToString());
+                            {
+                                textBoxEventName.Text = "ConcentrationMeasureEvent";
+                                string data0 = inputString.Substring(
+                                    startIndexPositionData, (int)EXPECTED_FLOAT_LENGTH);
+                                float dataFloat = GetFloatFromString(data0);
+                                richTextBoxCommon.Text += "Concentration=";
+                                richTextBoxCommon.Text += dataFloat.ToString() + "\r\n";
+                                AddHistory(dataFloat.ToString());
 
-                            startIndexPositionData += (int)EXPECTED_FLOAT_LENGTH;
-                            string data1 = inputString.Substring(
-                                startIndexPositionData, (int)EXPECTED_INT32_LENGTH);
-                            int cas = GetInt32FromString(data1);
-                            richTextBoxCommon.Text += "Cas=";
-                            richTextBoxCommon.Text += cas.ToString();
-                            AddHistory(cas.ToString());
+                                startIndexPositionData += (int)EXPECTED_FLOAT_LENGTH;
+                                string data1 = inputString.Substring(
+                                    startIndexPositionData, (int)EXPECTED_INT32_LENGTH);
+                                int cas = GetInt32FromString(data1);
+                                richTextBoxCommon.Text += "Cas=";
+                                richTextBoxCommon.Text += cas.ToString();
+                                AddHistory(cas.ToString());
+                            }
+                            break;
+
+                        case CurrentResultEventId:
+                            {
+                                textBoxEventName.Text = "CurrentResultEvent";
+                                string data0 = inputString.Substring(
+                                    startIndexPositionData, (int)EXPECTED_FLOAT_LENGTH);
+                                float dataFloat = GetFloatFromString(data0);
+                                richTextBoxCommon.Text += "Current=";
+                                richTextBoxCommon.Text += dataFloat.ToString() + "\r\n";
+                                AddHistory(dataFloat.ToString());
+
+                                /*startIndexPositionData += (int)EXPECTED_FLOAT_LENGTH;
+                                string data1 = inputString.Substring(
+                                    startIndexPositionData, (int)EXPECTED_INT32_LENGTH);
+                                int cas = GetInt32FromString(data1);
+                                richTextBoxCommon.Text += "Cas=";
+                                richTextBoxCommon.Text += cas.ToString();
+                                AddHistory(cas.ToString());*/
+                            }
                             break;
 
                         case DiscontinuousMonitoringEventEventId:
