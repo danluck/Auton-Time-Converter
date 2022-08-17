@@ -262,6 +262,16 @@ namespace AutonTimeConverter
             richTextBoxHistory.Text += text + "\t";
         }
 
+        private void AddFloatValueToForm(string inputString, int startIndexPositionData, string name)
+        {
+            string data0 = inputString.Substring(
+                startIndexPositionData, (int)EXPECTED_FLOAT_LENGTH);
+            float dataFloat = GetFloatFromString(data0);
+            richTextBoxCommon.Text += name + "=";
+            richTextBoxCommon.Text += dataFloat.ToString() + "\r\n";
+            AddHistory(dataFloat.ToString());
+        }
+
 		private void richTextBoxEventDataHex_TextChanged(object sender, EventArgs e)
 		{
 			ClearEventOutput();
@@ -367,63 +377,32 @@ namespace AutonTimeConverter
 							break;
 
                         case ConcentrationMeasureEventEventEventId:
-                            {
-                                textBoxEventName.Text = "ConcentrationMeasureEvent";
-                                string data0 = inputString.Substring(
-                                    startIndexPositionData, (int)EXPECTED_FLOAT_LENGTH);
-                                float dataFloat = GetFloatFromString(data0);
-                                richTextBoxCommon.Text += "Concentration=";
-                                richTextBoxCommon.Text += dataFloat.ToString() + "\r\n";
-                                AddHistory(dataFloat.ToString());
+                            textBoxEventName.Text = "ConcentrationMeasureEvent";
+                            AddFloatValueToForm(inputString, startIndexPositionData, "Concentration");
 
-                                startIndexPositionData += (int)EXPECTED_FLOAT_LENGTH;
-                                string data1 = inputString.Substring(
-                                    startIndexPositionData, (int)EXPECTED_INT32_LENGTH);
-                                int cas = GetInt32FromString(data1);
-                                richTextBoxCommon.Text += "Cas=";
-                                richTextBoxCommon.Text += cas.ToString();
-                                AddHistory(cas.ToString());
-                            }
+                            startIndexPositionData += (int)EXPECTED_FLOAT_LENGTH;
+                            string data1 = inputString.Substring(
+                                startIndexPositionData, (int)EXPECTED_INT32_LENGTH);
+                            int cas = GetInt32FromString(data1);
+                            richTextBoxCommon.Text += "Cas=";
+                            richTextBoxCommon.Text += cas.ToString();
+                            AddHistory(cas.ToString());
                             break;
 
                         case CurrentResultEventId:
-                            {
-                                textBoxEventName.Text = "CurrentResultEvent";
-                                string data0 = inputString.Substring(
-                                    startIndexPositionData, (int)EXPECTED_FLOAT_LENGTH);
-                                float dataFloat = GetFloatFromString(data0);
-                                richTextBoxCommon.Text += "Current=";
-                                richTextBoxCommon.Text += dataFloat.ToString() + "\r\n";
-                                AddHistory(dataFloat.ToString());
-                            }
+                            textBoxEventName.Text = "CurrentResultEvent";
+                            AddFloatValueToForm(inputString, startIndexPositionData, "Current");
                             break;
 
                         case Current03ResultEventId:
-                            {
-                                textBoxEventName.Text = "Current03ResultEvent";
-                                string data0 = inputString.Substring(
-                                    startIndexPositionData, (int)EXPECTED_FLOAT_LENGTH);
-                                float dataFloat = GetFloatFromString(data0);
-                                richTextBoxCommon.Text += "CurrentA=";
-                                richTextBoxCommon.Text += dataFloat.ToString() + "\r\n";
-                                AddHistory(dataFloat.ToString());
+                            textBoxEventName.Text = "Current03ResultEvent";
+                            AddFloatValueToForm(inputString, startIndexPositionData, "CurrentA");
 
-                                startIndexPositionData += (int)EXPECTED_FLOAT_LENGTH;
-                                data0 = inputString.Substring(
-                                    startIndexPositionData, (int)EXPECTED_FLOAT_LENGTH);
-                                dataFloat = GetFloatFromString(data0);
-                                richTextBoxCommon.Text += "CurrentB=";
-                                richTextBoxCommon.Text += dataFloat.ToString() + "\r\n";
-                                AddHistory(dataFloat.ToString());
+                            startIndexPositionData += (int)EXPECTED_FLOAT_LENGTH;
+                            AddFloatValueToForm(inputString, startIndexPositionData, "CurrentB");
 
-                                startIndexPositionData += (int)EXPECTED_FLOAT_LENGTH;
-                                data0 = inputString.Substring(
-                                    startIndexPositionData, (int)EXPECTED_FLOAT_LENGTH);
-                                dataFloat = GetFloatFromString(data0);
-                                richTextBoxCommon.Text += "CurrentC=";
-                                richTextBoxCommon.Text += dataFloat.ToString() + "\r\n";
-                                AddHistory(dataFloat.ToString());
-                            }
+                            startIndexPositionData += (int)EXPECTED_FLOAT_LENGTH;
+                            AddFloatValueToForm(inputString, startIndexPositionData, "CurrentC");
                             break;
 
                         case DiscontinuousMonitoringEventEventId:
