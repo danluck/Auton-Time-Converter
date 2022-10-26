@@ -318,8 +318,8 @@ namespace AutonTimeConverter
                         AddHistory(dateTime.ToString());
                     }
 
+					const UInt16 LorawanDownlinkErrorEventId = 17023;
 					const UInt16 ConcentrationMeasureErrorEventId = 17200;
-
 					const UInt16 TimeCorruptWarningEventId = 18004;
 
                     const UInt16 DeviceStateEventId = 19003;
@@ -340,6 +340,17 @@ namespace AutonTimeConverter
 
                     switch (eventId)
 					{
+						case LorawanDownlinkErrorEventId:
+							{
+								textBoxEventName.Text = "LorawanDownlinkErrorEvent";
+								var dataErrorCode = inputString.Substring(
+									startIndexPositionData, (int)EXPECTED_INT32_LENGTH);
+								int errorCode = GetInt32FromString(dataErrorCode);
+								richTextBoxCommon.Text += "ErrorCode=";
+								richTextBoxCommon.Text += errorCode.ToString();
+								AddHistory(errorCode.ToString());
+							}
+							break;
 						case ConcentrationMeasureErrorEventId:
 							{
 								textBoxEventName.Text = "ConcentrationMeasureErrorEvent";
