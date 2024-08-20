@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Security;
 using System.Text;
 //using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -59,6 +61,8 @@ namespace AutonTimeConverter
 			InitializeComponent();
 			ClearEventOutput();
             checkBoxCapture.Checked = true;
+
+			openFileDialog1 = new OpenFileDialog();
 		}
 
 		private void textBox1_TextChanged(object sender, EventArgs e)
@@ -267,11 +271,12 @@ namespace AutonTimeConverter
         {
             string data0 = inputString.Substring(
                 startIndexPositionData, (int)EXPECTED_FLOAT_LENGTH);
-            float dataFloat = GetFloatFromString(data0);
+            float dataValue = GetFloatFromString(data0);
             richTextBoxCommon.Text += name + "=";
-            richTextBoxCommon.Text += dataFloat.ToString() + "\r\n";
-            AddHistory(dataFloat.ToString());
-        }
+            richTextBoxCommon.Text += dataValue.ToString() + "\r\n";
+            AddHistory(dataValue.ToString());
+			AddToOutputString(dataValue);
+		}
 
 		private void AddUint16ToForm(string inputString, 
 			int startIndexPositionData, string name, string delimiter = "\r\n")
@@ -282,6 +287,7 @@ namespace AutonTimeConverter
 			richTextBoxCommon.Text += name + "=";
 			richTextBoxCommon.Text += dataValue.ToString() + delimiter;
 			AddHistory(dataValue.ToString());
+			AddToOutputString(dataValue);
 		}
 
 		private void AddInt32ToForm(string inputString,
@@ -293,10 +299,27 @@ namespace AutonTimeConverter
 			richTextBoxCommon.Text += name + "=";
 			richTextBoxCommon.Text += dataValue.ToString() + delimiter;
 			AddHistory(dataValue.ToString());
+			AddToOutputString(dataValue);
+		}
+
+		private string _outputString;
+		private void ResetOutputString()
+		{
+			_outputString = "";
+		}
+		private void AddToOutputString(string text)
+		{
+			_outputString += text;
+		}
+		private void AddToOutputString(object anyObject)
+		{
+			_outputString += anyObject.ToString() + " ; ";
 		}
 
 		private void ProcessInputString(string inputString)
 		{
+			ResetOutputString();
+
 			var length = inputString.Length;
 			if (length % BYTE_SYMBOLS_COUNT == 0 &&
 				length >= EXPECTED_CLASS_ID_LENGTH)
@@ -310,6 +333,7 @@ namespace AutonTimeConverter
 						inputString.Substring(
 							0, (int)EXPECTED_CLASS_ID_LENGTH);
 					eventId = GetUint16FromString(classIdString);
+					AddToOutputString(eventId);
 				}
 				catch (System.Exception ex) { }
 
@@ -543,5 +567,32 @@ namespace AutonTimeConverter
                     richTextBoxEventDataHex.Text = Clipboard.GetText();
             }
         }
-    }
+
+		private OpenFileDialog openFileDialog1;
+
+		//private bool _isInputFileOpened;
+		private string inputFileName;
+
+		private void button1_Click(object sender, EventArgs e)
+		{
+			if (openFileDialog1.ShowDialog() == DialogResult.OK)
+			{
+				inputFileName = openFileDialog1.FileName;
+				//_isInputFileOpened = true;
+				string outputFileName = inputFileName + "2";
+
+				StreamWriter fileToWrite = new StreamWriter(outputFileName);
+
+				foreach (string line in File.ReadLines(openFileDialog1.FileName))
+				{
+					Console.WriteLine(line);
+					ProcessInputString(line);
+
+					fileToWrite.WriteLine(_outputString);
+				}
+
+				fileToWrite.Close();
+			}
+		}
+	}
 }
