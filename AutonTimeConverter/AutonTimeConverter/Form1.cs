@@ -327,7 +327,11 @@ namespace AutonTimeConverter
                     const UInt16 ProcessStartedEventId = 19007;
                     const UInt16 WasChangedEventId = 19008;
 
-                    const UInt16 ConcentrationMeasureEventEventEventId = 22205;
+					const UInt16 RadarRawSignalInformationEventId = 19120;
+
+					const UInt16 DistanceMeasureEventId = 22125;
+
+					const UInt16 ConcentrationMeasureEventEventEventId = 22205;
 
                     const UInt16 CurrentResultEventId = 22405;
                     const UInt16 Current03ResultEventId = 22406;
@@ -401,7 +405,25 @@ namespace AutonTimeConverter
 							textBoxWasChangedEventContainerClassId.Text = containeredClassId.ToString();
 							break;
 
-                        case ConcentrationMeasureEventEventEventId:
+						case RadarRawSignalInformationEventId:
+							textBoxEventName.Text = "RadarRawSignalInformationEvent";
+
+							string dataGain = inputString.Substring(
+							   startIndexPositionData, (int)EXPECTED_UINT16_LENGTH);
+							UInt16 gain = GetUint16FromString(dataGain);
+							richTextBoxCommon.Text += "Gain=";
+							richTextBoxCommon.Text += gain.ToString() + "\r\n";
+							AddHistory(gain.ToString());
+							// uint16_t Gain;
+							//PeakRecord Peaks[10];
+							break;
+
+						case DistanceMeasureEventId:
+							textBoxEventName.Text = "DistanceMeasureEvent";
+							AddFloatValueToForm(inputString, startIndexPositionData, "Distance");
+							break;
+
+						case ConcentrationMeasureEventEventEventId:
                             textBoxEventName.Text = "ConcentrationMeasureEvent";
                             AddFloatValueToForm(inputString, startIndexPositionData, "Concentration");
 
