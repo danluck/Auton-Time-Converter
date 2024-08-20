@@ -273,6 +273,28 @@ namespace AutonTimeConverter
             AddHistory(dataFloat.ToString());
         }
 
+		private void AddUint16ToForm(string inputString, 
+			int startIndexPositionData, string name, string delimiter = "\r\n")
+		{
+			string data0 = inputString.Substring(
+				startIndexPositionData, (int)EXPECTED_UINT16_LENGTH);
+			UInt16 dataValue = GetUint16FromString(data0);
+			richTextBoxCommon.Text += name + "=";
+			richTextBoxCommon.Text += dataValue.ToString() + delimiter;
+			AddHistory(dataValue.ToString());
+		}
+
+		private void AddInt32ToForm(string inputString,
+			int startIndexPositionData, string name, string delimiter = "\r\n")
+		{
+			string data0 = inputString.Substring(
+				startIndexPositionData, (int)EXPECTED_INT32_LENGTH);
+			int dataValue = GetInt32FromString(data0);
+			richTextBoxCommon.Text += name + "=";
+			richTextBoxCommon.Text += dataValue.ToString() + delimiter;
+			AddHistory(dataValue.ToString());
+		}
+
 		private void ProcessInputString(string inputString)
 		{
 			var length = inputString.Length;
@@ -404,12 +426,7 @@ namespace AutonTimeConverter
 							textBoxEventName.Text = "RadarRawSignalInformationEvent";
 
 							// Gain
-							string dataGain = inputString.Substring(
-							   startIndexPositionData, (int)EXPECTED_UINT16_LENGTH);
-							UInt16 gain = GetUint16FromString(dataGain);
-							richTextBoxCommon.Text += "Gain=";
-							richTextBoxCommon.Text += gain.ToString() + "\r\n";
-							AddHistory(gain.ToString());
+							AddUint16ToForm(inputString, startIndexPositionData, "Gain");
 							startIndexPositionData += (int)EXPECTED_UINT16_LENGTH;
 
 							// Peaks[10]
@@ -418,21 +435,11 @@ namespace AutonTimeConverter
 							for (int i = 0; i < 10; i++)
 							{
 								// DistanceMm
-								string dataDistanceMm = inputString.Substring(
-								   startIndexPositionData, (int)EXPECTED_UINT16_LENGTH);
-								UInt16 distanceMm = GetUint16FromString(dataDistanceMm);
-								richTextBoxCommon.Text += "DistanceMm=";
-								richTextBoxCommon.Text += distanceMm.ToString() + ", ";
-								AddHistory(distanceMm.ToString());
+								AddUint16ToForm(inputString, startIndexPositionData, "DistanceMm", ", ");
 								startIndexPositionData += (int)EXPECTED_UINT16_LENGTH;
 
 								// Amplitude
-								string dataAmplitude = inputString.Substring(
-								   startIndexPositionData, (int)EXPECTED_INT32_LENGTH);
-								Int32 amplitude = GetInt32FromString(dataAmplitude);
-								richTextBoxCommon.Text += "Amplitude=";
-								richTextBoxCommon.Text += amplitude.ToString() + "\r\n";
-								AddHistory(amplitude.ToString());
+								AddInt32ToForm(inputString, startIndexPositionData, "Amplitude");
 								startIndexPositionData += (int)EXPECTED_INT32_LENGTH;
 							}
 							break;
