@@ -264,7 +264,10 @@ namespace AutonTimeConverter
 
         private void AddHistory(string text)
         {
-            richTextBoxHistory.Text += text + "\t";
+			if (!_isInputFileOpened)
+			{
+				richTextBoxHistory.Text += text + "\t";
+			}
         }
 
         private void AddFloatValueToForm(string inputString, int startIndexPositionData, string name)
@@ -272,8 +275,11 @@ namespace AutonTimeConverter
             string data0 = inputString.Substring(
                 startIndexPositionData, (int)EXPECTED_FLOAT_LENGTH);
             float dataValue = GetFloatFromString(data0);
-            richTextBoxCommon.Text += name + "=";
-            richTextBoxCommon.Text += dataValue.ToString() + "\r\n";
+			if (!_isInputFileOpened)
+			{
+				richTextBoxCommon.Text += name + "=";
+				richTextBoxCommon.Text += dataValue.ToString() + "\r\n";
+			}
             AddHistory(dataValue.ToString());
 			AddToOutputString(dataValue);
 		}
@@ -284,8 +290,11 @@ namespace AutonTimeConverter
 			string data0 = inputString.Substring(
 				startIndexPositionData, (int)EXPECTED_UINT16_LENGTH);
 			UInt16 dataValue = GetUint16FromString(data0);
-			richTextBoxCommon.Text += name + "=";
-			richTextBoxCommon.Text += dataValue.ToString() + delimiter;
+			if (!_isInputFileOpened)
+			{
+				richTextBoxCommon.Text += name + "=";
+				richTextBoxCommon.Text += dataValue.ToString() + delimiter;
+			}
 			AddHistory(dataValue.ToString());
 			AddToOutputString(dataValue);
 		}
@@ -296,8 +305,11 @@ namespace AutonTimeConverter
 			string data0 = inputString.Substring(
 				startIndexPositionData, (int)EXPECTED_INT32_LENGTH);
 			int dataValue = GetInt32FromString(data0);
-			richTextBoxCommon.Text += name + "=";
-			richTextBoxCommon.Text += dataValue.ToString() + delimiter;
+			if (!_isInputFileOpened)
+			{
+				richTextBoxCommon.Text += name + "=";
+				richTextBoxCommon.Text += dataValue.ToString() + delimiter;
+			}
 			AddHistory(dataValue.ToString());
 			AddToOutputString(dataValue);
 		}
@@ -570,7 +582,7 @@ namespace AutonTimeConverter
 
 		private OpenFileDialog openFileDialog1;
 
-		//private bool _isInputFileOpened;
+		private bool _isInputFileOpened;
 		private string inputFileName;
 
 		private void button1_Click(object sender, EventArgs e)
@@ -578,7 +590,7 @@ namespace AutonTimeConverter
 			if (openFileDialog1.ShowDialog() == DialogResult.OK)
 			{
 				inputFileName = openFileDialog1.FileName;
-				//_isInputFileOpened = true;
+				_isInputFileOpened = true;
 				string outputFileName = inputFileName + "2";
 
 				StreamWriter fileToWrite = new StreamWriter(outputFileName);
