@@ -273,60 +273,54 @@ namespace AutonTimeConverter
             AddHistory(dataFloat.ToString());
         }
 
-		private void richTextBoxEventDataHex_TextChanged(object sender, EventArgs e)
+		private void ProcessInputString(string inputString)
 		{
-			ClearEventOutput();
-
-			var inputString = richTextBoxEventDataHex.Text.Replace(" ", String.Empty);
-			if (!richTextBoxEventDataHex.Text.Equals(inputString))
-				richTextBoxEventDataHex.Text = inputString;
-
-            var length = inputString.Length;
+			var length = inputString.Length;
 			if (length % BYTE_SYMBOLS_COUNT == 0 &&
 				length >= EXPECTED_CLASS_ID_LENGTH)
 			{
 				labelStatus.Text = "Ok";
-                AddHistory(inputString);
-                UInt16 eventId = 0;
+				AddHistory(inputString);
+				UInt16 eventId = 0;
 				try
 				{
 					string classIdString =
 						inputString.Substring(
 							0, (int)EXPECTED_CLASS_ID_LENGTH);
 					eventId = GetUint16FromString(classIdString);
-                }
+				}
 				catch (System.Exception ex) { }
 
 				if (eventId != 0)
 				{
-                    AddHistory(eventId.ToString());
-                    textBoxClassId.Text = eventId.ToString();
-                    int startIndexPositionData = 0;
+					AddHistory(eventId.ToString());
+					textBoxClassId.Text = eventId.ToString();
+					int startIndexPositionData = 0;
 
-                    if (length >= (EXPECTED_CLASS_ID_LENGTH + EXPECTED_DATE_TIME_LENGTH))
+					if (length >= (EXPECTED_CLASS_ID_LENGTH + EXPECTED_DATE_TIME_LENGTH))
 					{
 						int startIndexPosition = (int)EXPECTED_CLASS_ID_LENGTH;
 						string dateTimeString =
 							inputString.Substring(
 								startIndexPosition, (int)EXPECTED_DATE_TIME_LENGTH);
 						Console.WriteLine("dateTimeString={0}", dateTimeString);
-                        startIndexPositionData = (int)
-                            (EXPECTED_CLASS_ID_LENGTH + EXPECTED_DATE_TIME_LENGTH);
+						startIndexPositionData = (int)
+							(EXPECTED_CLASS_ID_LENGTH + EXPECTED_DATE_TIME_LENGTH);
 
-                        UInt32 time = GetUint32FromString(dateTimeString);
+						UInt32 time = GetUint32FromString(dateTimeString);
 						DateTime dateTime = GetActualDateTime(time);
 						textBoxDateTimeString.Text = dateTime.ToString();
-                        AddHistory(dateTime.ToString());
-                    }
+						AddHistory(dateTime.ToString());
+					}
 
 					const UInt16 LorawanDownlinkErrorEventId = 17023;
 					const UInt16 ConcentrationMeasureErrorEventId = 17200;
 					const UInt16 TimeCorruptWarningEventId = 18004;
 
-                    const UInt16 DeviceStateEventId = 19003;
+					const UInt16 DeviceStateEventId = 19003;
 
-                    const UInt16 ProcessStartedEventId = 19007;
-                    const UInt16 WasChangedEventId = 19008;
+					const UInt16 ProcessStartedEventId = 19007;
+					const UInt16 WasChangedEventId = 19008;
 
 					const UInt16 RadarRawSignalInformationEventId = 19120;
 
@@ -334,16 +328,16 @@ namespace AutonTimeConverter
 
 					const UInt16 ConcentrationMeasureEventEventEventId = 22205;
 
-                    const UInt16 CurrentResultEventId = 22405;
-                    const UInt16 Current03ResultEventId = 22406;
+					const UInt16 CurrentResultEventId = 22405;
+					const UInt16 Current03ResultEventId = 22406;
 
-                    const UInt16 DiscontinuousMonitoringEventEventId = 22550;
+					const UInt16 DiscontinuousMonitoringEventEventId = 22550;
 
-                    const UInt16 TemperatureEventId = 22820;
-                    const UInt16 PressureEventId = 22821;
-                    const UInt16 PressureTemperatureEventId = 22822;
+					const UInt16 TemperatureEventId = 22820;
+					const UInt16 PressureEventId = 22821;
+					const UInt16 PressureTemperatureEventId = 22822;
 
-                    switch (eventId)
+					switch (eventId)
 					{
 						case LorawanDownlinkErrorEventId:
 							{
@@ -369,28 +363,28 @@ namespace AutonTimeConverter
 							break;
 
 						case TimeCorruptWarningEventId:
-                            textBoxEventName.Text = "TimeCorruptWarningEvent";
-                            break;
+							textBoxEventName.Text = "TimeCorruptWarningEvent";
+							break;
 
-                        case DeviceStateEventId:
-                            textBoxEventName.Text = "DeviceStateEvent";
-                            string dataBattery = inputString.Substring(
-                                startIndexPositionData, (int)EXPECTED_UINT16_LENGTH);
-                            UInt16 battery = GetUint16FromString(dataBattery);
-                            richTextBoxCommon.Text += "Battery=";
-                            richTextBoxCommon.Text += battery.ToString() + "\r\n";
-                            AddHistory(battery.ToString());
+						case DeviceStateEventId:
+							textBoxEventName.Text = "DeviceStateEvent";
+							string dataBattery = inputString.Substring(
+								startIndexPositionData, (int)EXPECTED_UINT16_LENGTH);
+							UInt16 battery = GetUint16FromString(dataBattery);
+							richTextBoxCommon.Text += "Battery=";
+							richTextBoxCommon.Text += battery.ToString() + "\r\n";
+							AddHistory(battery.ToString());
 
-                            startIndexPositionData += (int)EXPECTED_UINT16_LENGTH;
-                            string dataSignal = inputString.Substring(
-                                startIndexPositionData, (int)EXPECTED_UINT16_LENGTH);
-                            UInt16 signal = GetUint16FromString(dataSignal);
-                            richTextBoxCommon.Text += "Signal=";
-                            richTextBoxCommon.Text += signal.ToString();
-                            AddHistory(signal.ToString());
-                            break;
+							startIndexPositionData += (int)EXPECTED_UINT16_LENGTH;
+							string dataSignal = inputString.Substring(
+								startIndexPositionData, (int)EXPECTED_UINT16_LENGTH);
+							UInt16 signal = GetUint16FromString(dataSignal);
+							richTextBoxCommon.Text += "Signal=";
+							richTextBoxCommon.Text += signal.ToString();
+							AddHistory(signal.ToString());
+							break;
 
-                        case ProcessStartedEventId:
+						case ProcessStartedEventId:
 							textBoxEventName.Text = "ProcessStartedEvent";
 							break;
 						case WasChangedEventId:
@@ -421,7 +415,6 @@ namespace AutonTimeConverter
 							// Peaks[10]
 							// uint16_t DistanceMm;
 							// int32_t Amplitude;
-
 							for (int i = 0; i < 10; i++)
 							{
 								// DistanceMm
@@ -450,66 +443,77 @@ namespace AutonTimeConverter
 							break;
 
 						case ConcentrationMeasureEventEventEventId:
-                            textBoxEventName.Text = "ConcentrationMeasureEvent";
-                            AddFloatValueToForm(inputString, startIndexPositionData, "Concentration");
+							textBoxEventName.Text = "ConcentrationMeasureEvent";
+							AddFloatValueToForm(inputString, startIndexPositionData, "Concentration");
 
-                            startIndexPositionData += (int)EXPECTED_FLOAT_LENGTH;
-                            string data1 = inputString.Substring(
-                                startIndexPositionData, (int)EXPECTED_INT32_LENGTH);
-                            int cas = GetInt32FromString(data1);
-                            richTextBoxCommon.Text += "Cas=";
-                            richTextBoxCommon.Text += cas.ToString();
-                            AddHistory(cas.ToString());
-                            break;
+							startIndexPositionData += (int)EXPECTED_FLOAT_LENGTH;
+							string data1 = inputString.Substring(
+								startIndexPositionData, (int)EXPECTED_INT32_LENGTH);
+							int cas = GetInt32FromString(data1);
+							richTextBoxCommon.Text += "Cas=";
+							richTextBoxCommon.Text += cas.ToString();
+							AddHistory(cas.ToString());
+							break;
 
-                        case CurrentResultEventId:
-                            textBoxEventName.Text = "CurrentResultEvent";
-                            AddFloatValueToForm(inputString, startIndexPositionData, "Current");
-                            break;
+						case CurrentResultEventId:
+							textBoxEventName.Text = "CurrentResultEvent";
+							AddFloatValueToForm(inputString, startIndexPositionData, "Current");
+							break;
 
-                        case Current03ResultEventId:
-                            textBoxEventName.Text = "Current03ResultEvent";
-                            AddFloatValueToForm(inputString, startIndexPositionData, "CurrentA");
+						case Current03ResultEventId:
+							textBoxEventName.Text = "Current03ResultEvent";
+							AddFloatValueToForm(inputString, startIndexPositionData, "CurrentA");
 
-                            startIndexPositionData += (int)EXPECTED_FLOAT_LENGTH;
-                            AddFloatValueToForm(inputString, startIndexPositionData, "CurrentB");
+							startIndexPositionData += (int)EXPECTED_FLOAT_LENGTH;
+							AddFloatValueToForm(inputString, startIndexPositionData, "CurrentB");
 
-                            startIndexPositionData += (int)EXPECTED_FLOAT_LENGTH;
-                            AddFloatValueToForm(inputString, startIndexPositionData, "CurrentC");
-                            break;
+							startIndexPositionData += (int)EXPECTED_FLOAT_LENGTH;
+							AddFloatValueToForm(inputString, startIndexPositionData, "CurrentC");
+							break;
 
-                        case DiscontinuousMonitoringEventEventId:
-                            textBoxEventName.Text = "DiscontinuousMonitoringEvent";
-                            string dataString = inputString.Substring(
-                                startIndexPositionData, (int)EXPECTED_STATE_CHANGE_COUNTER_LENGTH);
-                            UInt32 data = GetUint32FromString(dataString);
-                            richTextBoxCommon.Text += "StateChangedCounter=";
-                            richTextBoxCommon.Text += data.ToString();
-                            AddHistory(data.ToString());
-                            break;
+						case DiscontinuousMonitoringEventEventId:
+							textBoxEventName.Text = "DiscontinuousMonitoringEvent";
+							string dataString = inputString.Substring(
+								startIndexPositionData, (int)EXPECTED_STATE_CHANGE_COUNTER_LENGTH);
+							UInt32 data = GetUint32FromString(dataString);
+							richTextBoxCommon.Text += "StateChangedCounter=";
+							richTextBoxCommon.Text += data.ToString();
+							AddHistory(data.ToString());
+							break;
 
-                        case TemperatureEventId:
+						case TemperatureEventId:
 							textBoxEventName.Text = "Temperature";
-                            string temperatureDataString = inputString.Substring(
-                                startIndexPositionData, (int)EXPECTED_TEMPERATURE_LENGTH);
-                            Int16 temperature = GetInt16FromString(temperatureDataString);
-                            richTextBoxCommon.Text += "temperature 0.01°C=";
-                            richTextBoxCommon.Text += temperature.ToString();
-                            break;
+							string temperatureDataString = inputString.Substring(
+								startIndexPositionData, (int)EXPECTED_TEMPERATURE_LENGTH);
+							Int16 temperature = GetInt16FromString(temperatureDataString);
+							richTextBoxCommon.Text += "temperature 0.01°C=";
+							richTextBoxCommon.Text += temperature.ToString();
+							break;
 						case PressureEventId:
 							textBoxEventName.Text = "Pressure";
 							break;
 						case PressureTemperatureEventId:
 							textBoxEventName.Text = "PressureTemperature";
 							break;
-                    }
+					}
 				}
-                richTextBoxHistory.Text += "\r\n";
-            }
+				richTextBoxHistory.Text += "\r\n";
+			}
 			else
 			{
 				labelStatus.Text = "Incorrect length";
 			}
+		}
+
+		private void richTextBoxEventDataHex_TextChanged(object sender, EventArgs e)
+		{
+			ClearEventOutput();
+
+			var inputString = richTextBoxEventDataHex.Text.Replace(" ", String.Empty);
+			if (!richTextBoxEventDataHex.Text.Equals(inputString))
+				richTextBoxEventDataHex.Text = inputString;
+
+			ProcessInputString(inputString);
 		}
 
 		private void ClearEventOutput()
