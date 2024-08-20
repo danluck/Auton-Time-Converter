@@ -118,7 +118,8 @@ namespace AutonTimeConverter
 
         private Int32 GetInt32FromString(string text)
         {
-            UInt32 number = 0;
+			Console.WriteLine($"text={text}");
+			UInt32 number = 0;
             try
             {
                 number = Convert.ToUInt32(text, 16);
@@ -408,14 +409,39 @@ namespace AutonTimeConverter
 						case RadarRawSignalInformationEventId:
 							textBoxEventName.Text = "RadarRawSignalInformationEvent";
 
+							// Gain
 							string dataGain = inputString.Substring(
 							   startIndexPositionData, (int)EXPECTED_UINT16_LENGTH);
 							UInt16 gain = GetUint16FromString(dataGain);
 							richTextBoxCommon.Text += "Gain=";
 							richTextBoxCommon.Text += gain.ToString() + "\r\n";
 							AddHistory(gain.ToString());
-							// uint16_t Gain;
-							//PeakRecord Peaks[10];
+							startIndexPositionData += (int)EXPECTED_UINT16_LENGTH;
+
+							// Peaks[10]
+							// uint16_t DistanceMm;
+							// int32_t Amplitude;
+
+							for (int i = 0; i < 10; i++)
+							{
+								// DistanceMm
+								string dataDistanceMm = inputString.Substring(
+								   startIndexPositionData, (int)EXPECTED_UINT16_LENGTH);
+								UInt16 distanceMm = GetUint16FromString(dataDistanceMm);
+								richTextBoxCommon.Text += "DistanceMm=";
+								richTextBoxCommon.Text += distanceMm.ToString() + ", ";
+								AddHistory(distanceMm.ToString());
+								startIndexPositionData += (int)EXPECTED_UINT16_LENGTH;
+
+								// Amplitude
+								string dataAmplitude = inputString.Substring(
+								   startIndexPositionData, (int)EXPECTED_INT32_LENGTH);
+								Int32 amplitude = GetInt32FromString(dataAmplitude);
+								richTextBoxCommon.Text += "Amplitude=";
+								richTextBoxCommon.Text += amplitude.ToString() + "\r\n";
+								AddHistory(amplitude.ToString());
+								startIndexPositionData += (int)EXPECTED_INT32_LENGTH;
+							}
 							break;
 
 						case DistanceMeasureEventId:
