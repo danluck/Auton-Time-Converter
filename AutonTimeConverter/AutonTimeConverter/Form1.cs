@@ -299,6 +299,21 @@ namespace AutonTimeConverter
 			AddToOutputString(dataValue);
 		}
 
+		private void AddInt16ToForm(string inputString,
+			int startIndexPositionData, string name, string delimiter = "\r\n")
+		{
+			string data0 = inputString.Substring(
+				startIndexPositionData, (int)EXPECTED_UINT16_LENGTH);
+			Int16 dataValue = GetInt16FromString(data0);
+			if (!_isInputFileOpened)
+			{
+				richTextBoxCommon.Text += name + "=";
+				richTextBoxCommon.Text += dataValue.ToString() + delimiter;
+			}
+			AddHistory(dataValue.ToString());
+			AddToOutputString(dataValue);
+		}
+
 		private void AddInt32ToForm(string inputString,
 			int startIndexPositionData, string name, string delimiter = "\r\n")
 		{
@@ -532,11 +547,24 @@ namespace AutonTimeConverter
 							richTextBoxCommon.Text += "temperature 0.01°C=";
 							richTextBoxCommon.Text += temperature.ToString();
 							break;
+
 						case PressureEventId:
 							textBoxEventName.Text = "Pressure";
+							// PressurePa, int32_t
+							AddInt32ToForm(inputString, startIndexPositionData, "PressurePa");
+							startIndexPositionData += (int)EXPECTED_INT32_LENGTH;
 							break;
+
 						case PressureTemperatureEventId:
 							textBoxEventName.Text = "PressureTemperature";
+
+							// PressurePa, int32_t
+							// TemperatureC01, int16_t
+							AddInt32ToForm(inputString, startIndexPositionData, "PressurePa", ", ");
+							startIndexPositionData += (int)EXPECTED_INT32_LENGTH;
+							
+							AddInt16ToForm(inputString, startIndexPositionData, "TemperatureC01");
+							startIndexPositionData += (int)EXPECTED_UINT16_LENGTH;
 							break;
 					}
 				}
