@@ -49,14 +49,15 @@ namespace AutonTimeConverter
 
         // uint16_t
         const UInt32 EXPECTED_UINT16_BYTE_LENGTH = 2;
-        const UInt32 EXPECTED_UINT16_LENGTH =
-            EXPECTED_UINT16_BYTE_LENGTH * BYTE_SYMBOLS_COUNT;
+        const UInt32 EXPECTED_UINT16_LENGTH = 
+			EXPECTED_UINT16_BYTE_LENGTH * BYTE_SYMBOLS_COUNT;
+		const UInt32 EXPECTED_INT16_LENGTH = EXPECTED_UINT16_LENGTH;
 
-        // 		const UInt32 LOCATION_ID_BYTE_LENGTH = 8;
-        // 		const UInt32 LOCATION_ID_LENGTH = 
-        // 			LOCATION_ID_BYTE_LENGTH * BYTE_SYMBOLS_COUNT;
+		// 		const UInt32 LOCATION_ID_BYTE_LENGTH = 8;
+		// 		const UInt32 LOCATION_ID_LENGTH = 
+		// 			LOCATION_ID_BYTE_LENGTH * BYTE_SYMBOLS_COUNT;
 
-        public Form1()
+		public Form1()
 		{
 			InitializeComponent();
 			ClearEventOutput();
@@ -482,7 +483,7 @@ namespace AutonTimeConverter
 
 							// Peaks[10]
 							// uint16_t DistanceMm;
-							// int32_t Amplitude;
+							// int16_t Amplitude;
 							for (int i = 0; i < 10; i++)
 							{
 								// DistanceMm
@@ -490,8 +491,8 @@ namespace AutonTimeConverter
 								startIndexPositionData += (int)EXPECTED_UINT16_LENGTH;
 
 								// Amplitude
-								AddInt32ToForm(inputString, startIndexPositionData, "Amplitude");
-								startIndexPositionData += (int)EXPECTED_INT32_LENGTH;
+								AddInt16ToForm(inputString, startIndexPositionData, "Amplitude");
+								startIndexPositionData += (int)EXPECTED_INT16_LENGTH;
 							}
 							break;
 
