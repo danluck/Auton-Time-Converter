@@ -371,21 +371,27 @@ namespace AutonTimeConverter
 					textBoxClassId.Text = eventId.ToString();
 					int startIndexPositionData = 0;
 
-					if (length >= (EXPECTED_CLASS_ID_LENGTH + EXPECTED_DATE_TIME_LENGTH))
-					{
-						int startIndexPosition = (int)EXPECTED_CLASS_ID_LENGTH;
-						string dateTimeString =
-							inputString.Substring(
-								startIndexPosition, (int)EXPECTED_DATE_TIME_LENGTH);
-						Console.WriteLine("dateTimeString={0}", dateTimeString);
-						startIndexPositionData = (int)
-							(EXPECTED_CLASS_ID_LENGTH + EXPECTED_DATE_TIME_LENGTH);
+                    const ushort EVENT_ID_RANGE_START = 16000;
+                    if (eventId > EVENT_ID_RANGE_START)
+                    {
+                        if (length >= (EXPECTED_CLASS_ID_LENGTH + EXPECTED_DATE_TIME_LENGTH))
+                        {
+                            int startIndexPosition = (int)EXPECTED_CLASS_ID_LENGTH;
+                            string dateTimeString =
+                                inputString.Substring(
+                                    startIndexPosition, (int)EXPECTED_DATE_TIME_LENGTH);
+                            Console.WriteLine("dateTimeString={0}", dateTimeString);
+                            startIndexPositionData = (int)
+                                (EXPECTED_CLASS_ID_LENGTH + EXPECTED_DATE_TIME_LENGTH);
 
-						UInt32 time = GetUint32FromString(dateTimeString);
-						DateTime dateTime = GetActualDateTime(time);
-						textBoxDateTimeString.Text = dateTime.ToString();
-						AddHistory(dateTime.ToString());
-					}
+                            UInt32 time = GetUint32FromString(dateTimeString);
+                            DateTime dateTime = GetActualDateTime(time);
+                            textBoxDateTimeString.Text = dateTime.ToString();
+                            AddHistory(dateTime.ToString());
+                        }
+                    }
+
+                    const UInt16 A125MeasureSettings = 125;
 
 					const UInt16 LorawanDownlinkErrorEventId = 17023;
 					const UInt16 ConcentrationMeasureErrorEventId = 17200;
@@ -413,6 +419,19 @@ namespace AutonTimeConverter
 
 					switch (eventId)
 					{
+                        case A125MeasureSettings:
+                            {
+                                textBoxEventName.Text = "A125MeasureSettings";
+
+								// Skip MonitoringProcessSettings
+								startIndexPositionData += (44 * 2);
+                                AddFloatValueToForm(inputString, startIndexPositionData, "MinDistance");
+                                startIndexPositionData += (int)EXPECTED_FLOAT_LENGTH;
+								AddFloatValueToForm(inputString, startIndexPositionData, "MaxDistance");
+                                startIndexPositionData += (int)EXPECTED_FLOAT_LENGTH;
+							}
+                            break;
+
 						case LorawanDownlinkErrorEventId:
 							{
 								textBoxEventName.Text = "LorawanDownlinkErrorEvent";
