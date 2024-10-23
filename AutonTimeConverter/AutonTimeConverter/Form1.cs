@@ -47,8 +47,14 @@ namespace AutonTimeConverter
         const UInt32 EXPECTED_INT32_LENGTH =
             EXPECTED_INT32_BYTE_LENGTH * BYTE_SYMBOLS_COUNT;
 
-        // uint16_t
-        const UInt32 EXPECTED_UINT16_BYTE_LENGTH = 2;
+        // uint8_t
+        const UInt32 EXPECTED_UINT8_BYTE_LENGTH = 1;
+        const UInt32 EXPECTED_UINT8_LENGTH =
+            EXPECTED_UINT8_BYTE_LENGTH * BYTE_SYMBOLS_COUNT;
+        const UInt32 EXPECTED_INT8_LENGTH = EXPECTED_UINT8_LENGTH;
+
+		// uint16_t
+		const UInt32 EXPECTED_UINT16_BYTE_LENGTH = 2;
         const UInt32 EXPECTED_UINT16_LENGTH = 
 			EXPECTED_UINT16_BYTE_LENGTH * BYTE_SYMBOLS_COUNT;
 		const UInt32 EXPECTED_INT16_LENGTH = EXPECTED_UINT16_LENGTH;
@@ -180,7 +186,33 @@ namespace AutonTimeConverter
             return 0;
         }
 
-        private UInt16 GetUint16FromString(string text)
+        private byte GetUint8FromString(string text)
+        {
+            byte value = 0;
+            try
+            {
+                value = Convert.ToByte(text, 16);
+            }
+            catch (System.Exception ex)
+            {
+            }
+            return value;
+        }
+
+        private sbyte GetInt8FromString(string text)
+        {
+            sbyte value = 0;
+            try
+            {
+                value = Convert.ToSByte(text, 16);
+            }
+            catch (System.Exception ex)
+            {
+            }
+            return value;
+        }
+
+		private UInt16 GetUint16FromString(string text)
 		{
 			UInt16 classId = 0;
 			UInt16 eventId = 0;
@@ -283,6 +315,62 @@ namespace AutonTimeConverter
 			}
             AddHistory(dataValue.ToString());
 			AddToOutputString(dataValue);
+		}
+
+        private void AddUint8ToForm(string inputString,
+            int startIndexPositionData, string name, string delimiter = "\r\n")
+        {
+            string data0 = inputString.Substring(
+                startIndexPositionData, (int)EXPECTED_UINT8_LENGTH);
+            byte dataValue = GetUint8FromString(data0);
+            if (!_isInputFileOpened)
+            {
+                richTextBoxCommon.Text += name + "=";
+                richTextBoxCommon.Text += dataValue.ToString() + delimiter;
+            }
+            AddHistory(dataValue.ToString());
+            AddToOutputString(dataValue);
+        }
+
+        private void AddRadarModuleParamsToForm(string inputString,
+            int startIndexPositionData, string name, string delimiter = "\r\n")
+        {
+			string data0 = inputString.Substring(
+                startIndexPositionData, (int)EXPECTED_INT8_LENGTH);
+            var signalQuality = GetInt8FromString(data0);
+            if (!_isInputFileOpened)
+            {
+                richTextBoxCommon.Text += name + "\r\n";
+                richTextBoxCommon.Text += "\tSignalQuality=";
+				richTextBoxCommon.Text += signalQuality.ToString() + delimiter;
+            }
+            AddHistory(signalQuality.ToString());
+            AddToOutputString(signalQuality);
+
+            startIndexPositionData += (int)EXPECTED_INT8_LENGTH;
+            string data1 = inputString.Substring(
+                startIndexPositionData, (int)EXPECTED_INT8_LENGTH);
+            var thresholdValue = GetInt8FromString(data1);
+            if (!_isInputFileOpened)
+            {
+                richTextBoxCommon.Text += "\tThresholdValue=";
+                richTextBoxCommon.Text += thresholdValue.ToString() + delimiter;
+            }
+            AddHistory(thresholdValue.ToString());
+            AddToOutputString(thresholdValue);
+
+			// Options: MaxProfile : 3, PeakSortingMode : 1, ThresholdType : 1, CloseRangeLeakageCancellation : 1
+			startIndexPositionData += (int)EXPECTED_INT8_LENGTH;
+            string data2 = inputString.Substring(
+                startIndexPositionData, (int)EXPECTED_UINT8_LENGTH);
+            var options = GetUint8FromString(data2);
+            if (!_isInputFileOpened)
+            {
+                richTextBoxCommon.Text += "\tOptions=";
+                richTextBoxCommon.Text += options.ToString() + delimiter;
+            }
+            AddHistory(options.ToString());
+            AddToOutputString(options);
 		}
 
 		private void AddUint16ToForm(string inputString, 
@@ -429,8 +517,26 @@ namespace AutonTimeConverter
                                 startIndexPositionData += (int)EXPECTED_FLOAT_LENGTH;
 								AddFloatValueToForm(inputString, startIndexPositionData, "MaxDistance");
                                 startIndexPositionData += (int)EXPECTED_FLOAT_LENGTH;
+
+                                AddUint8ToForm(inputString, startIndexPositionData, "AccuracyMm");
+                                startIndexPositionData += (int)EXPECTED_UINT8_LENGTH;
+
+                                AddUint16ToForm(inputString, startIndexPositionData, "MaxDistanceSpeedMmPerHour");
+                                startIndexPositionData += (int)EXPECTED_UINT16_LENGTH;
+
+                                AddUint8ToForm(inputString, startIndexPositionData, "AlgorithmId");
+                                startIndexPositionData += (int)EXPECTED_UINT8_LENGTH;
+
+								// Skip RadarModuleParams StageParams[2]
+								AddRadarModuleParamsToForm(inputString, startIndexPositionData, "Stage0");
+								startIndexPositionData += (3 * 2);
+                                AddRadarModuleParamsToForm(inputString, startIndexPositionData, "Stage1");
+                                startIndexPositionData += (3 * 2);
+
+								AddUint8ToForm(inputString, startIndexPositionData, "ReflectorShape_EvaluateOnlyReliablePeaks");
+                                startIndexPositionData += (int)EXPECTED_UINT8_LENGTH;
 							}
-                            break;
+							break;
 
 						case LorawanDownlinkErrorEventId:
 							{
