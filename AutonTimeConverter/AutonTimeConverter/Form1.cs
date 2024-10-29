@@ -505,6 +505,8 @@ namespace AutonTimeConverter
 					const UInt16 PressureEventId = 22821;
 					const UInt16 PressureTemperatureEventId = 22822;
 
+                    const int MonitoringSettingsLengthBytes = 44;
+
 					switch (eventId)
 					{
                         case A125MeasureSettings:
@@ -512,7 +514,7 @@ namespace AutonTimeConverter
                                 textBoxEventName.Text = "A125MeasureSettings";
 
 								// Skip MonitoringProcessSettings
-								startIndexPositionData += (44 * 2);
+								startIndexPositionData += (MonitoringSettingsLengthBytes * 2);
                                 AddFloatValueToForm(inputString, startIndexPositionData, "MinDistance");
                                 startIndexPositionData += (int)EXPECTED_FLOAT_LENGTH;
 								AddFloatValueToForm(inputString, startIndexPositionData, "MaxDistance");
@@ -692,6 +694,42 @@ namespace AutonTimeConverter
 							AddInt16ToForm(inputString, startIndexPositionData, "TemperatureC01");
 							startIndexPositionData += (int)EXPECTED_UINT16_LENGTH;
 							break;
+
+						default:
+							// MonitoringProcess
+                            if (eventId < 1000)
+                            {
+                                textBoxEventName.Text = "MonitoringProcess";
+
+                                // Skip MonitoringProcessSettings
+                                startIndexPositionData += (30 * 2);
+
+                                AddFloatValueToForm(inputString, startIndexPositionData, "CheckPeriodSec");
+                                startIndexPositionData += (int)EXPECTED_FLOAT_LENGTH;
+
+                                AddUint16ToForm(inputString, startIndexPositionData, "RemoteReplicationDelayMinutes1");
+                                startIndexPositionData += (int)EXPECTED_UINT16_LENGTH;
+
+                                AddUint16ToForm(inputString, startIndexPositionData, "Reserved");
+                                startIndexPositionData += (int)EXPECTED_UINT16_LENGTH;
+
+                                AddUint16ToForm(inputString, startIndexPositionData, "LocalReplicationPeriodSec1");
+                                startIndexPositionData += (int)EXPECTED_UINT16_LENGTH;
+
+                                AddUint16ToForm(inputString, startIndexPositionData, "StorePeriodMinutes");
+                                startIndexPositionData += (int)EXPECTED_UINT16_LENGTH;
+
+                                AddUint16ToForm(inputString, startIndexPositionData, "RemoteReplicationPeriodMinutes");
+                                startIndexPositionData += (int)EXPECTED_UINT16_LENGTH;
+
+								// MonitoringExtProcessSettings
+								if (length >= ((MonitoringSettingsLengthBytes + 2) * 2))
+                                {
+                                    AddUint16ToForm(inputString, startIndexPositionData, "MeasureStorePeriodMinutes");
+                                    startIndexPositionData += (int)EXPECTED_UINT16_LENGTH;
+								}
+							}
+                            break;
 					}
 				}
 				richTextBoxHistory.Text += "\r\n";
