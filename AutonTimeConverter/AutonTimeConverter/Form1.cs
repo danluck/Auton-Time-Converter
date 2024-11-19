@@ -502,6 +502,8 @@ namespace AutonTimeConverter
 
 					const UInt16 DiscontinuousMonitoringEventEventId = 22550;
 
+					const UInt16 TemperatureMonitoringEventEventId = 22557;
+
 					const UInt16 TemperatureEventId = 22820;
 					const UInt16 PressureEventId = 22821;
 					const UInt16 PressureTemperatureEventId = 22822;
@@ -668,6 +670,7 @@ namespace AutonTimeConverter
 							AddHistory(data.ToString());
 							break;
 
+						case TemperatureMonitoringEventEventId:
 						case TemperatureEventId:
 							textBoxEventName.Text = "Temperature";
 							string temperatureDataString = inputString.Substring(
@@ -675,6 +678,8 @@ namespace AutonTimeConverter
 							Int16 temperature = GetInt16FromString(temperatureDataString);
 							richTextBoxCommon.Text += "temperature 0.01°C=";
 							richTextBoxCommon.Text += temperature.ToString();
+							AddHistory(temperature.ToString());
+							AddToOutputString(temperature);
 							break;
 
 						case PressureEventId:
