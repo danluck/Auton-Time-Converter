@@ -475,6 +475,7 @@ namespace AutonTimeConverter
                             UInt32 time = GetUint32FromString(dateTimeString);
                             DateTime dateTime = GetActualDateTime(time);
                             textBoxDateTimeString.Text = dateTime.ToString();
+                            AddToOutputString(dateTime);
                             AddHistory(dateTime.ToString());
                         }
                     }
