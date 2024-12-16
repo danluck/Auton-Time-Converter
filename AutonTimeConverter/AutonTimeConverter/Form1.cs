@@ -316,8 +316,7 @@ namespace AutonTimeConverter
             AddHistory(dataValue.ToString());
 			AddToOutputString(dataValue);
 		}
-
-        private void AddUint8ToForm(string inputString,
+        private byte AddUint8ToForm(string inputString,
             int startIndexPositionData, string name, string delimiter = "\r\n")
         {
             string data0 = inputString.Substring(
@@ -330,6 +329,7 @@ namespace AutonTimeConverter
             }
             AddHistory(dataValue.ToString());
             AddToOutputString(dataValue);
+            return dataValue;
         }
 
         private void AddRadarModuleParamsToForm(string inputString,
@@ -538,8 +538,22 @@ namespace AutonTimeConverter
                                 AddRadarModuleParamsToForm(inputString, startIndexPositionData, "Stage1");
                                 startIndexPositionData += (3 * 2);
 
-								AddUint8ToForm(inputString, startIndexPositionData, "ReflectorShape_EvaluateOnlyReliablePeaks");
-                                startIndexPositionData += (int)EXPECTED_UINT8_LENGTH;
+								// Options
+								byte optionsValue = AddUint8ToForm(inputString, startIndexPositionData, 
+                                    "Options");
+                                bool reflectorShape = (optionsValue & 0x1) != 0;
+                                bool evaluateOnlyReliablePeaks = (optionsValue & 0x2) != 0;
+                                bool removeFalsePeak = (optionsValue & 0x4) != 0;
+								bool setAccuracyAtFirstStage = (optionsValue & 0x8) != 0;
+                                bool increaseCalibrationNoisePointsNum = (optionsValue & 0x10) != 0;
+								string optionsString = $"\t reflectorShape={reflectorShape},\r\n" +
+                                                       $"\t evaluateOnlyReliablePeaks={evaluateOnlyReliablePeaks},\r\n" +
+                                                       $"\t removeFalsePeak={removeFalsePeak},\r\n" +
+                                                       $"\t setAccuracyAtFirstStage={setAccuracyAtFirstStage},\r\n" +
+                                                       $"\t increaseCalibrationNoisePointsNum={increaseCalibrationNoisePointsNum}\r\n";
+								richTextBoxCommon.Text += optionsString;
+
+								startIndexPositionData += (int)EXPECTED_UINT8_LENGTH;
 							}
 							break;
 
